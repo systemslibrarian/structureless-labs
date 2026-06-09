@@ -12,6 +12,7 @@
   "evidence_grade": "B",
   "evidence_note": "Strong consensus across the lattice-crypto literature; the worst-case-to-average-case reductions are well-studied. Concrete security depends on continued cryptanalysis of the assumed parameters — graded 'strong evidence, not proven here.'",
   "related": ["lattices", "noise", "modular"],
+  "citations": ["regev-2005", "peikert-2009", "blprs-2013"],
   "attack_links": [],
   "source_spec": "../../sl-kem/spec/EXPLAINER-LWE.md"
 }

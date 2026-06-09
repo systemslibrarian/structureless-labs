@@ -11,6 +11,7 @@
   "evidence_grade": "B",
   "evidence_note": "Mature design space; both patterns are deployed in published / standardized KEMs. The trade-off (helper bits vs. encoding-embedded) is well-understood but actively re-litigated as standards evolve.",
   "related": ["lwe", "encoding", "noise", "lattices"],
+  "citations": ["ding-2012", "peikert-2014", "newhope-2016"],
   "attack_links": [],
   "source_spec": null
 }

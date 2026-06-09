@@ -20,6 +20,7 @@ window.SL_ATLAS_CONCEPTS = [
     evidence_note:
       "Strong consensus across the lattice-crypto literature; the worst-case-to-average-case reductions are well-studied. Concrete security depends on continued cryptanalysis of the assumed parameters — graded 'strong evidence, not proven here.'",
     related: ["lattices", "noise", "modular"],
+    citations: ["regev-2005", "peikert-2009", "blprs-2013"],
     source_spec: "../../sl-kem/spec/EXPLAINER-LWE.md"
   },
   {
@@ -58,6 +59,7 @@ window.SL_ATLAS_CONCEPTS = [
     evidence_note:
       "Mature engineering; concrete failure-probability bounds are well-understood. The 'enough noise / not too much' trade-off is actively re-evaluated as new attacks appear.",
     related: ["lwe", "lattices"],
+    citations: ["kyber-2018", "frodokem-2017", "dvv-2019"],
     source_spec: null
   },
   {
@@ -77,6 +79,7 @@ window.SL_ATLAS_CONCEPTS = [
     evidence_note:
       "Well-established design discipline: the encoder-decoder pair, the recovery property, and the failure-probability accounting are standard textbook material. Specific code choices (Reed-Muller vs. Barnes-Wall vs. bitwise) are an active engineering debate — graded B because the trade-off space is mature but not closed.",
     related: ["lwe", "noise", "lattices"],
+    citations: ["scloud-plus-2024", "dvv-2019"],
     attack_links: [],
     source_spec: null
   },
@@ -96,6 +99,7 @@ window.SL_ATLAS_CONCEPTS = [
     evidence_grade: "B",
     evidence_note: "Mature design space; both patterns are deployed in published / standardized KEMs. The trade-off (helper bits vs. encoding-embedded) is well-understood but actively re-litigated as standards evolve.",
     related: ["lwe", "encoding", "noise", "lattices"],
+    citations: ["ding-2012", "peikert-2014", "newhope-2016"],
     attack_links: [],
     source_spec: null
   },

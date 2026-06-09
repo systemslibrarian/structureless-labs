@@ -11,6 +11,7 @@
   "evidence_grade": "B",
   "evidence_note": "Well-established design discipline: the encoder-decoder pair, the recovery property, and the failure-probability accounting are standard textbook material. Specific code choices (Reed-Muller vs. Barnes-Wall vs. bitwise) are an active engineering debate — graded B because the trade-off space is mature but not closed.",
   "related": ["lwe", "noise", "lattices"],
+  "citations": ["scloud-plus-2024", "dvv-2019"],
   "attack_links": [],
   "source_spec": null
 }

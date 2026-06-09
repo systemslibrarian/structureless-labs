@@ -11,6 +11,7 @@
   "evidence_grade": "B",
   "evidence_note": "Mature engineering; concrete failure-probability bounds are well-understood. The 'enough noise / not too much' trade-off is actively re-evaluated as new attacks appear.",
   "related": ["lwe", "lattices"],
+  "citations": ["kyber-2018", "frodokem-2017", "dvv-2019"],
   "attack_links": [],
   "source_spec": null
 }
