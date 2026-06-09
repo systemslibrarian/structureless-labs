@@ -28,7 +28,7 @@ This is not a claim that we have solved post-quantum cryptography. It is an **op
 ```
 Structureless Labs
 │
-├─ sl-kem          Experimental structureless-lattice KEM
+├─ sl-kem          Experimental KEM — the method's first test subject
 ├─ slff            Hybrid encrypted file container (Structureless Labs File Format)
 ├─ sl-atlas        Interactive learning site — explainable PQC
 ├─ sl-attacklab    Break-it-first cryptanalysis repo

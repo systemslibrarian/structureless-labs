@@ -5,8 +5,29 @@
 > We build cryptography research in the open, where every claim is testable, every assumption is documented, and every design is invited to be broken.
 
 [![Pages: sl-atlas](https://img.shields.io/badge/sl--atlas-live-f5b14a?style=flat-square&logo=github)](https://systemslibrarian.github.io/structureless-labs/)
-[![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-2563eb?style=flat-square)](LICENSE)
-[![Status: experimental](https://img.shields.io/badge/status-experimental-9ca3af?style=flat-square)](#what-we-are-not-claiming)
+[![Method: sl-researchkit](https://img.shields.io/badge/method-sl--researchkit-2563eb?style=flat-square)](sl-researchkit/)
+[![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-6b7280?style=flat-square)](LICENSE)
+[![sl-kem: experimental](https://img.shields.io/badge/sl--kem-experimental-d97706?style=flat-square)](sl-kem/)
+
+---
+
+## Why "Structureless"?
+
+"Structureless" names the **research method** before anything else: an open lifecycle with no hidden assumptions, where nothing is deleted, every claim is falsifiable, every design is invited to be broken, and every decision is recorded. The lab is *structureless* in the epistemic sense — no buried priors, no quiet retractions, no convenient amnesia.
+
+There is a secondary, technical echo: in the lattice-cryptography literature, "structure" refers to the algebraic structure (rings, modules) that some attacks specifically exploit. The experimental [`sl-kem`](sl-kem/) explores more conservative, less-structured lattice assumptions on that axis. That work is a *test subject for the method* — not the reason the lab is named what it is.
+
+**Ordering, plainly:** the method ([`sl-researchkit`](sl-researchkit/)) and the explainers ([`sl-atlas`](sl-atlas/)) are the identity and the value. The KEM is the method's first customer.
+
+---
+
+## Lineage and related prior work
+
+This lab did not appear from nowhere. Its method-first thesis grew out of hands-on study of real structureless-lattice designs in the published literature — most directly through [**crypto-lab-scloud-vault**](https://github.com/systemslibrarian/crypto-lab-scloud-vault) ([live demo](https://systemslibrarian.github.io/crypto-lab-scloud-vault/)), a separate prior project that explains and faithfully reimplements **S-Cloud+**, a post-quantum KEM published by *Wang et al.* (ePrint [2024/1306](https://eprint.iacr.org/2024/1306)). S-Cloud+ — unstructured LWE with ternary secrets, Barnes-Wall (BW₃₂) lattice coding, and a Fujisaki-Okamoto transform — is **their** design; scloud-vault is a study of it, not the owner's primitive.
+
+The relationship to Structureless Labs is **theme and demonstrated skill only**. scloud-vault is the conceptual on-ramp for what "structureless" means in the lattice-cryptography literature (security without algebraic ring structure), and the verifiable proof that the lab's owner can read, reimplement, and explain a frontier paper in that family. The lab's own [`sl-kem`](sl-kem/) is a separate, experimental attempt in the same conservative, less-structured family — built and attacked under [`sl-researchkit`](sl-researchkit/)'s method, with none of S-Cloud+'s peer-review carried forward.
+
+> **Studying S-Cloud+ does not validate `sl-kem`. The two share a research family, not a security guarantee.** S-Cloud+ is attributed entirely to Wang et al.; scloud-vault is an explainer of their work; `sl-kem` borrows neither their construction nor their credibility. For production, the recommendation remains ML-KEM (NIST FIPS 203).
 
 ---
 
@@ -79,7 +100,7 @@ Structureless Labs
 ├─ sl-bench        Benchmarks and parameter comparisons
 ├─ sl-vectors      Reproducible, public test vectors
 ├─ sl-attacklab    Break-it-first cryptanalysis
-└─ sl-kem          Experimental structureless-lattice KEM
+└─ sl-kem          Experimental KEM — the method's first test subject
 ```
 
 | Repo | Risk | Potential | Status |
@@ -181,8 +202,10 @@ Zero build step. Pure HTML / CSS / JS. Opens directly via `file://` too.
 
 ## License
 
-Apache-2.0. See [`LICENSE`](LICENSE). Vendor the full text into each
-sub-project's `LICENSE` before going public (tracked in [`SETUP.md`](SETUP.md)).
+Apache-2.0. The canonical text is vendored into every sub-repo's `LICENSE` (root,
+[`sl-researchkit`](sl-researchkit/LICENSE), [`sl-atlas`](sl-atlas/LICENSE), [`sl-kem`](sl-kem/LICENSE),
+[`slff`](slff/LICENSE), [`sl-bench`](sl-bench/LICENSE), [`sl-vectors`](sl-vectors/LICENSE),
+[`sl-attacklab`](sl-attacklab/LICENSE)). Project attribution lives in [`NOTICE`](NOTICE).
 
 ---
 
