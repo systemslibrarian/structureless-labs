@@ -1,0 +1,29 @@
+name: Validate (atlas schema, parity, STATUS)
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Validate every sl-atlas concept JSON against schema.json
+        run: node scripts/validate-atlas.mjs
+
+      - name: Check sl-atlas/src/concepts.js ↔ sl-atlas/content/ parity
+        run: node scripts/check-atlas-parity.mjs
+
+      - name: Assert STATUS.md is up to date
+        run: node scripts/gen-status.mjs --check

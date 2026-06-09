@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structureless-labs/sl-atlas/content/schema.json",
+  "title": "sl-atlas Concept",
+  "description": "Canonical schema for a single Atlas concept. CONTENT-SCHEMA.md is the human-readable summary; this file is the enforced contract.",
+  "type": "object",
+  "required": ["id", "title", "category", "views", "evidence_grade"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*[a-z0-9]$",
+      "description": "kebab-case identifier; must match the filename and the entry in concepts.js"
+    },
+    "title": { "type": "string", "minLength": 1 },
+    "subtitle": { "type": "string" },
+    "category": {
+      "type": "string",
+      "enum": ["foundations", "constructions", "attacks", "engineering"]
+    },
+    "views": {
+      "type": "object",
+      "required": ["simple", "developer", "researcher"],
+      "additionalProperties": false,
+      "properties": {
+        "simple":     { "type": ["string", "null"], "minLength": 1 },
+        "developer":  { "type": ["string", "null"], "minLength": 1 },
+        "researcher": { "type": ["string", "null"], "minLength": 1 }
+      },
+      "description": "All three keys MUST be present. Each view may be null to indicate a draft / Teacher-BLOCKED state; publishable concepts have all three as non-empty strings."
+    },
+    "interactive": {
+      "type": "string",
+      "description": "Optional identifier for an interactive demo mounted by app.js (e.g., 'lwe-matrix')."
+    },
+    "evidence_grade": {
+      "type": "string",
+      "enum": ["A", "B", "C", "D", "E", "—"],
+      "description": "Per sl-researchkit/checklists/EVIDENCE-GRADING.md."
+    },
+    "evidence_note": { "type": "string" },
+    "related": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^[a-z][a-z0-9-]*[a-z0-9]$" }
+    },
+    "attack_links": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "source_spec": { "type": ["string", "null"] },
+    "status": {
+      "type": "string",
+      "description": "Free-form publication status note. Used to record BLOCKED state when any view is null. Example: 'BLOCKED — Teacher review 2026-06-09 (missing Simple view)'."
+    },
+    "_publication_status_note": {
+      "type": "string",
+      "description": "Optional long-form note about why a draft is not published. The leading underscore marks it as a meta-field."
+    }
+  }
+}
