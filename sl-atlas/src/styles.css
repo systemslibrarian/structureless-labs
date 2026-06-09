@@ -678,6 +678,82 @@ kbd {
   white-space: nowrap;
 }
 
+/* -------- references -------- */
+.references {
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.references-heading {
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  color: var(--muted);
+  margin: 0 0 6px;
+  font-weight: 700;
+}
+.references-note {
+  margin: 0 0 14px;
+  font-size: .82rem;
+  color: var(--muted);
+}
+.references-note code {
+  font-family: var(--font-mono);
+  font-size: .92em;
+  background: var(--code-bg);
+  color: var(--code-text);
+  padding: 1px 5px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+}
+.reference-list {
+  list-style: none;
+  counter-reset: ref-counter;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 12px;
+}
+.reference-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px;
+  align-items: start;
+  padding: 12px 14px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  counter-increment: ref-counter;
+}
+.reference-item .ref-id {
+  font-family: var(--font-mono);
+  font-size: .82rem;
+  color: var(--accent);
+  font-weight: 700;
+  padding-top: 2px;
+  white-space: nowrap;
+}
+.reference-item .ref-id-link {
+  color: var(--accent);
+  text-decoration: none;
+}
+.reference-item .ref-id-link:hover { text-decoration: underline; text-underline-offset: 2px; }
+.reference-item .ref-text {
+  color: var(--text-soft);
+  font-size: .92rem;
+  line-height: 1.55;
+  font-family: var(--font-prose);
+}
+.reference-item .ref-link-row {
+  margin-top: 6px;
+  font-family: var(--font-mono);
+  font-size: .82rem;
+  word-break: break-all;
+}
+.reference-item .ref-link {
+  color: var(--link);
+}
+
 /* -------- footer -------- */
 .site-footer {
   border-top: 1px solid var(--border);

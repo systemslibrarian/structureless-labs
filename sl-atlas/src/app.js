@@ -8,6 +8,9 @@
 
   const CONCEPTS = window.SL_ATLAS_CONCEPTS || [];
   const CONCEPTS_BY_ID = Object.fromEntries(CONCEPTS.map(c => [c.id, c]));
+  const BLOCKED = window.SL_ATLAS_BLOCKED || [];
+  const BLOCKED_BY_ID = Object.fromEntries(BLOCKED.map(b => [b.id, b]));
+  const CITATIONS = window.SL_ATLAS_CITATIONS || {};
   const VIEWS = [
     { id: "simple",     label: "Simple",     description: "For a curious non-expert." },
     { id: "developer",  label: "Developer",  description: "For a programmer." },
@@ -22,6 +25,7 @@
 
   // ---------- DOM refs ----------
   const conceptListEl = document.getElementById("concept-list");
+  const blockedListEl = document.getElementById("blocked-list");
   const conceptViewEl = document.getElementById("concept-view");
   const themeButton   = document.getElementById("theme-toggle");
   const srStatusEl    = document.getElementById("sr-status");
@@ -107,7 +111,7 @@
   }
   function applyHash() {
     const h = parseHash();
-    if (h.conceptId && CONCEPTS_BY_ID[h.conceptId]) state.conceptId = h.conceptId;
+    if (h.conceptId && (CONCEPTS_BY_ID[h.conceptId] || BLOCKED_BY_ID[h.conceptId])) state.conceptId = h.conceptId;
     if (h.view && VIEWS.find(v => v.id === h.view)) state.view = h.view;
     state.compare = !!h.compare;
   }
@@ -133,12 +137,40 @@
       li.appendChild(a);
       conceptListEl.appendChild(li);
     }
+
+    if (blockedListEl) {
+      blockedListEl.innerHTML = "";
+      for (const b of BLOCKED) {
+        const li = document.createElement("li");
+        const a = document.createElement("a");
+        const isActive = b.id === state.conceptId;
+        a.href = `#/${b.id}`;
+        a.className = "concept-blocked-link" + (isActive ? " is-active" : "");
+        if (isActive) a.setAttribute("aria-current", "page");
+        a.setAttribute("title", `BLOCKED ${b.blocked_at}: ${b.blocked_reason}`);
+        a.innerHTML = `
+          <span>${escapeHtml(b.title)}</span>
+          <span class="pill-block" aria-label="Blocked by Teacher review">BLOCK</span>
+        `;
+        a.addEventListener("click", e => {
+          e.preventDefault();
+          setConcept(b.id, { fromUser: true });
+        });
+        li.appendChild(a);
+        blockedListEl.appendChild(li);
+      }
+    }
   }
 
   // ---------- main view ----------
   function renderConcept() {
     const c = CONCEPTS_BY_ID[state.conceptId];
     if (!c) {
+      const blocked = BLOCKED_BY_ID[state.conceptId];
+      if (blocked) {
+        renderBlockedDraft(blocked);
+        return;
+      }
       conceptViewEl.innerHTML = `<p>No concept selected.</p>`;
       return;
     }
@@ -238,6 +270,61 @@
     return `<div class="view">${renderProse(text)}</div>`;
   }
 
+  function renderBlockedDraft(b) {
+    const missing = Object.entries(b.views)
+      .filter(([, v]) => v === null || v === "")
+      .map(([k]) => k);
+    const present = Object.entries(b.views)
+      .filter(([, v]) => typeof v === "string" && v.length > 0);
+
+    const missingHtml = missing.map(k => `
+      <section class="view view-missing" aria-label="${escapeHtml(k)} view (missing)">
+        <h3 class="view-heading">${escapeHtml(k.charAt(0).toUpperCase() + k.slice(1))} view</h3>
+        <p class="view-empty"><strong>Missing.</strong> This is why the Teacher gate <span class="pill-block-inline">BLOCKED</span> publication.</p>
+      </section>
+    `).join("");
+
+    const presentHtml = present.map(([k, text]) => `
+      <section class="view view-authored" aria-label="${escapeHtml(k)} view (authored)">
+        <h3 class="view-heading">${escapeHtml(k.charAt(0).toUpperCase() + k.slice(1))} view <span class="view-status">authored</span></h3>
+        <div class="view">${renderProse(text)}</div>
+      </section>
+    `).join("");
+
+    conceptViewEl.innerHTML = `
+      <header class="concept-header">
+        <div class="concept-eyebrow">held by teacher gate</div>
+        <h1 class="concept-title">
+          ${escapeHtml(b.title)}
+          <span class="pill-block pill-block-large" aria-label="Blocked by Teacher review">BLOCKED</span>
+        </h1>
+        ${b.subtitle ? `<p class="concept-subtitle">${escapeHtml(b.subtitle)}</p>` : ""}
+      </header>
+
+      <section class="block-banner" role="status">
+        <p>
+          <strong>This concept is NOT published.</strong>
+          The Teacher persona returned <code>VERDICT: BLOCK</code> on ${escapeHtml(b.blocked_at)} —
+          ${renderInline(b.blocked_reason)}
+        </p>
+        <p class="block-banner-links">
+          <a href="${escapeHtml(b.review_path)}" target="_blank" rel="noopener">Read the full Teacher review</a>
+          ·
+          <a href="${escapeHtml(b.decision_path)}" target="_blank" rel="noopener">Flight-recorder decision D-0003</a>
+        </p>
+      </section>
+
+      <section class="blocked-views" aria-label="Authored views (kept for the resolution path)">
+        <h2 class="blocked-views-heading">Authored content (preserved per never-edit-destructively)</h2>
+        <p class="blocked-views-note">The Developer and Researcher views below were authored before the gate ran. They are kept in <code>sl-atlas/content/${escapeHtml(b.id)}.json</code> so a future author can resolve the BLOCK by authoring the missing depth — not by starting over.</p>
+        ${presentHtml}
+        ${missingHtml}
+      </section>
+
+      ${renderReferences(b.citations || [])}
+    `;
+  }
+
   function renderCompare(c) {
     return `
       <div class="compare-grid">
@@ -256,6 +343,7 @@
     const related = (c.related || [])
       .map(id => CONCEPTS_BY_ID[id])
       .filter(Boolean);
+    const citationIds = c.citations || [];
 
     return `
       <section class="meta" aria-label="Concept metadata">
@@ -286,6 +374,41 @@
                <p style="margin-top:6px; font-size:.82rem; color:var(--muted);">Atlas content tracks the spec — never the other way around.</p>`
             : `<p>No upstream spec yet.</p>`}
         </div>
+      </section>
+
+      ${renderReferences(citationIds)}
+    `;
+  }
+
+  function renderReferences(citationIds) {
+    if (!citationIds || citationIds.length === 0) return "";
+    const items = citationIds.map(id => {
+      const entry = CITATIONS[id];
+      if (!entry) {
+        // Should be impossible if check-citations CI is green, but render defensively.
+        return `<li class="reference-item" data-cite-id="${escapeHtml(id)}">
+          <span class="ref-id">[${escapeHtml(id)}]</span>
+          <span class="ref-body"><em>Unresolved citation</em></span>
+        </li>`;
+      }
+      const link = entry.url
+        ? `<a href="${escapeHtml(entry.url)}" target="_blank" rel="noopener" class="ref-link">${escapeHtml(entry.url)}</a>`
+        : "";
+      return `
+        <li class="reference-item" id="cite-${escapeHtml(id)}">
+          <span class="ref-id"><a href="../../CITATIONS.md#${escapeHtml(id)}" target="_blank" rel="noopener" class="ref-id-link">[${escapeHtml(id)}]</a></span>
+          <div class="ref-body">
+            <div class="ref-text">${renderInline(entry.body)}</div>
+            ${link ? `<div class="ref-link-row">${link}</div>` : ""}
+          </div>
+        </li>`;
+    }).join("");
+
+    return `
+      <section class="references" aria-label="References">
+        <h3 class="references-heading">References</h3>
+        <p class="references-note">Citations declared in this concept's <code>citations</code> array, resolved against the central <a href="../../CITATIONS.md" target="_blank" rel="noopener">CITATIONS.md</a> registry. CI fails the build on any unresolved ID.</p>
+        <ol class="reference-list">${items}</ol>
       </section>
     `;
   }
@@ -439,7 +562,8 @@
 
   // ---------- state setters ----------
   function setConcept(id, opts = {}) {
-    if (!CONCEPTS_BY_ID[id]) return;
+    const target = CONCEPTS_BY_ID[id] || BLOCKED_BY_ID[id];
+    if (!target) return;
     const prev = state.conceptId;
     state.conceptId = id;
     writeHash();
@@ -447,10 +571,12 @@
     renderConcept();
     if (opts.fromUser) {
       conceptViewEl.focus({ preventScroll: true });
-      announce(`${CONCEPTS_BY_ID[id].title}. ${stateAnnouncement()}`);
+      const announcement = BLOCKED_BY_ID[id]
+        ? `${target.title}. Blocked by Teacher review.`
+        : `${target.title}. ${stateAnnouncement()}`;
+      announce(announcement);
     }
     if (prev !== id && window.matchMedia("(max-width: 880px)").matches) {
-      // On mobile, scroll the article into view so the user sees content after tapping a chip.
       conceptViewEl.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   }
