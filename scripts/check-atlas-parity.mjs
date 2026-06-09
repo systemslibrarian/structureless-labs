@@ -31,6 +31,20 @@ if (!Array.isArray(concepts)) {
 }
 const conceptIds = new Set(concepts.map(c => c.id));
 
+// Load blocked.js (optional — older snapshots may not have it).
+const BLOCKED_JS = path.join(ROOT, "sl-atlas", "src", "blocked.js");
+let blocked = [];
+let blockedIds = new Set();
+try {
+  const blockedCode = await readFile(BLOCKED_JS, "utf8");
+  const blockedSandbox = { window: {} };
+  new Function("window", blockedCode)(blockedSandbox.window);
+  blocked = blockedSandbox.window.SL_ATLAS_BLOCKED || [];
+  blockedIds = new Set(blocked.map(b => b.id));
+} catch (_) {
+  // No blocked.js present — that's fine.
+}
+
 // Load every JSON file in content/.
 const entries = await readdir(CONTENT_DIR);
 const jsonFiles = entries.filter(f => f.endsWith(".json") && !NON_CONCEPT.has(f));
@@ -73,12 +87,31 @@ for (const [id, doc] of jsonDocs) {
   }
 }
 
-const published = [...jsonDocs].filter(([, d]) => isPublishable(d)).length;
-const blocked = jsonDocs.size - published;
+// (4) blocked.js ↔ content/ parity for BLOCKED drafts.
+// Every BLOCKED draft in content/ must appear in blocked.js, and every entry in
+// blocked.js must have a corresponding BLOCKED JSON in content/.
+for (const [id, doc] of jsonDocs) {
+  if (!isPublishable(doc) && !blockedIds.has(id)) {
+    fail(`content/${id}.json is BLOCKED but not present in blocked.js`);
+  }
+}
+for (const b of blocked) {
+  if (!jsonDocs.has(b.id)) {
+    fail(`blocked.js entry "${b.id}" has no matching content/${b.id}.json`);
+    continue;
+  }
+  const doc = jsonDocs.get(b.id);
+  if (isPublishable(doc)) {
+    fail(`blocked.js entry "${b.id}" appears publishable in content/ (all three views non-null and no BLOCKED status)`);
+  }
+}
+
+const publishedCount = [...jsonDocs].filter(([, d]) => isPublishable(d)).length;
+const blockedCount = jsonDocs.size - publishedCount;
 
 if (process.exitCode) {
-  console.error(`\ncheck-atlas-parity: FAILED — ${concepts.length} in concepts.js, ${jsonDocs.size} content files (${published} publishable, ${blocked} blocked).`);
+  console.error(`\ncheck-atlas-parity: FAILED — ${concepts.length} in concepts.js, ${blocked.length} in blocked.js, ${jsonDocs.size} content files (${publishedCount} publishable, ${blockedCount} blocked).`);
   process.exit(1);
 } else {
-  console.log(`check-atlas-parity: PASS — ${concepts.length} published, ${blocked} blocked, no drift.`);
+  console.log(`check-atlas-parity: PASS — ${publishedCount} published, ${blockedCount} blocked, no drift.`);
 }
