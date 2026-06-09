@@ -1,0 +1,24 @@
+{
+  "spec": "SPEC-000",
+  "iters_requested": 1000,
+  "iters_run": 0,
+  "ran_at": "2026-06-09T22:13:09.581Z",
+  "host": {
+    "node": "v26.3.0",
+    "platform": "win32",
+    "arch": "x64"
+  },
+  "status": "TODO — SPEC-000 is a structural draft with no parameter set; no measurements possible without (n, m, q, χ, η, encoder, H)",
+  "measurements": {
+    "keygen_ms": "TODO",
+    "encaps_ms": "TODO",
+    "decaps_ms_honest": "TODO",
+    "decaps_ms_implicit_reject": "TODO",
+    "pk_bytes": "TODO",
+    "sk_bytes": "TODO",
+    "ct_bytes": "TODO",
+    "security_estimate_bits": "TODO",
+    "decryption_failure_log2": "TODO"
+  },
+  "honesty_note": "This harness is a scaffold. Running it against SPEC-000 (a structural draft) produces no numerical claims. Per the lab's anti-fabrication rule, the placeholder values are \"TODO\" rather than fabricated numbers. When a parameterized SPEC-NNN lands and sl-kem/ref/ is wired in, this harness gets a real run loop and emits real numbers."
+}
