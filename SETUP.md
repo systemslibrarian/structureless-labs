@@ -27,10 +27,10 @@ cd ..
 ```
 
 ## 3. Before going public
-- [ ] Vendor the full Apache-2.0 text into each LICENSE
-      (https://www.apache.org/licenses/LICENSE-2.0.txt).
-- [ ] Apply your standard crypto-lab Parts 0/A–D pass (theme toggle, README polish,
-      GitHub Pages config, scripture footer) to sl-atlas.
+- [x] Vendor the full Apache-2.0 text into each LICENSE
+      (https://www.apache.org/licenses/LICENSE-2.0.txt). Done 2026-06-09.
+- [x] Apply your standard crypto-lab Parts 0/A–D pass (theme toggle, README polish,
+      GitHub Pages config, scripture footer) to sl-atlas. Done 2026-06-09.
 - [ ] Pin sl-atlas as the org's featured repo.
 
 ---

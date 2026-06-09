@@ -1,0 +1,16 @@
+Structureless Labs
+
+Copyright 2026 Paul Clark / Structureless Labs
+
+This product includes original research, code, and documentation released under
+the Apache License, Version 2.0 (see LICENSE).
+
+Attributions for external work that this repository describes, studies, or builds
+on (e.g. ML-KEM, S-Cloud+, FrodoKEM, Kyber) are made in-place at the point of use.
+Studying or explaining external designs does not transfer their authorship or
+their peer-review status to this lab's experimental work (e.g. sl-kem). For
+production cryptography, use the standardized algorithms named in each sub-repo's
+SECURITY.md.
+
+---
+Soli Deo Gloria — 1 Corinthians 10:31
