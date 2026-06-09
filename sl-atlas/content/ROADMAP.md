@@ -5,7 +5,8 @@ the Teacher gate before it is published — see
 [`sl-researchkit/personas/TEACHER.md`](../../sl-researchkit/personas/TEACHER.md).
 
 ## Foundations still to author
-- **Encoding** — how a message becomes lattice points and back.
+- ~~**Encoding**~~ — authored 2026-06-09; see `encoding.json` and Teacher review
+  `sl-atlas/reviews/TEACHER-2026-06-09-encoding.md`.
 - **Reconciliation** — how two parties agree on a shared key from noisy samples.
 - **Parameter choices** — the `(n, q, χ)` trade-off space, and the standards' choices.
 - **Attacks** — BKZ, sieving, dual attacks; where concrete security comes from.
