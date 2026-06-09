@@ -3,6 +3,11 @@
    Source: CITATIONS.md at the repo root. CI fails if this file drifts. */
 
 window.SL_ATLAS_CITATIONS = {
+  "albrecht-2015": {
+    id: "albrecht-2015",
+    body: "Martin R. Albrecht, Rachel Player, Sam Scott. *\"On the Concrete Hardness of Learning with\nErrors.\"* Journal of Mathematical Cryptology, 9(3), 2015; ePrint 2015/046. The reference\npaper behind the modern LWE estimator; the methodological basis for every concrete\nparameter-set security claim in the lattice-KEM literature.",
+    url: "https://eprint.iacr.org/2015/046"
+  },
   "blprs-2013": {
     id: "blprs-2013",
     body: "Zvika Brakerski, Adeline Langlois, Chris Peikert, Oded Regev, Damien Stehlé.\n*\"Classical Hardness of Learning with Errors.\"* STOC 2013. Strengthens the LWE-to-lattice\nreduction.",

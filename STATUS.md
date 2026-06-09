@@ -3,19 +3,19 @@
 _This file is **generated**. Do not edit by hand. CI regenerates it on every push and
 fails the build if it drifts. Source of truth is the tree itself; this is a view._
 
-Generated: 2026-06-09T22:58:14Z
+Generated: 2026-06-09T23:04:21Z
 
 ## Counts
 
 | Artifact | Count |
 |---|---|
-| Published atlas concepts (in `sl-atlas/src/concepts.js`) | **6** |
+| Published atlas concepts (in `sl-atlas/src/concepts.js`) | **9** |
 | Blocked atlas drafts (in `sl-atlas/content/` with `status: BLOCKED...`) | **1** |
 | Filed attacklab findings (`sl-attacklab/findings/F-####.md`) | **3** |
 | Flight-recorder decisions (sl-kem + sl-researchkit) | **6** |
 | Predictions on record (`sl-kem/predictions/`) | **2** |
 | Fossils (sl-kem + org-level) | **2** |
-| Atlas Teacher reviews on record | **4** |
+| Atlas Teacher reviews on record | **7** |
 | Journal entries | **1** |
 | Versioned sl-kem specs (`sl-kem/spec/SPEC-###.md`) | **1** |
 | Frozen attack targets (`sl-attacklab/targets/T-####.md`) | **1** |
@@ -29,6 +29,9 @@ Generated: 2026-06-09T22:58:14Z
 - `noise` — Noise (grade B)
 - `encoding` — Encoding (grade B)
 - `reconciliation` — Reconciliation (grade B)
+- `parameter-choices` — Parameter choices (grade B)
+- `attacks` — Attacks (grade B)
+- `scloud-plus` — S-Cloud+ (grade B)
 - `modular` — Modular Arithmetic (mod q) (grade A)
 
 ## Blocked atlas drafts
@@ -72,9 +75,12 @@ Generated: 2026-06-09T22:58:14Z
 
 ## Atlas Teacher reviews
 
+- [`TEACHER-2026-06-09-attacks.md`](sl-atlas/reviews/TEACHER-2026-06-09-attacks.md)
 - [`TEACHER-2026-06-09-decryption-failure.md`](sl-atlas/reviews/TEACHER-2026-06-09-decryption-failure.md)
 - [`TEACHER-2026-06-09-encoding.md`](sl-atlas/reviews/TEACHER-2026-06-09-encoding.md)
+- [`TEACHER-2026-06-09-parameter-choices.md`](sl-atlas/reviews/TEACHER-2026-06-09-parameter-choices.md)
 - [`TEACHER-2026-06-09-reconciliation.md`](sl-atlas/reviews/TEACHER-2026-06-09-reconciliation.md)
+- [`TEACHER-2026-06-09-scloud-plus.md`](sl-atlas/reviews/TEACHER-2026-06-09-scloud-plus.md)
 - [`TEACHER-2026-06-09.md`](sl-atlas/reviews/TEACHER-2026-06-09.md)
 
 ## Journal

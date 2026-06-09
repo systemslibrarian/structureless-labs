@@ -104,6 +104,69 @@ window.SL_ATLAS_CONCEPTS = [
     source_spec: null
   },
   {
+    id: "parameter-choices",
+    title: "Parameter choices",
+    subtitle: "How (n, q, χ) get tuned — the joint optimization of security, bandwidth, and correctness",
+    category: "foundations",
+    views: {
+      simple:
+        "Every cryptographic scheme is a balance. Choose parameters that make attacks too expensive — but not so heavy that legitimate users can't run them. In lattice cryptography, the main knobs are the *dimension* (how many numbers in the secret), the *modulus* (the clock size), and the *noise size* (how much imperfection you mix in). Turn them too low and the math is easy to break; too high and your keys won't fit in a network packet. The published standards — ML-KEM, FrodoKEM — represent particular guesses about where the right balance lives, and that balance is publicly auditable: every parameter set ships with a derivation showing why these specific numbers.",
+      developer:
+        "Parameter selection for an LWE-based KEM is the joint optimization of `(n, m, q, χ)` against three constraints: **(1) Security target `λ`** (typically 128 / 192 / 256 classical bits, or 64 / 96 / 128 quantum bits under core-SVP), enforced via the lattice-estimator's output. **(2) Decryption-failure target `δ`** (typically `≤ 2^{-λ_sec}` per the D'Anvers et al. (2019) adaptive-failure bound). **(3) Bandwidth/latency envelope** (public-key size, ciphertext size, ops/sec). The trade is non-monotone: raising `n` raises security *and* bandwidth; tightening `χ` lowers `δ` but can lower security; raising `q` gives noise budget but inflates keys. ML-KEM-512 (Kyber) lives at one point in this triangle; FrodoKEM-640 at another. Choosing between them is choosing a position — not finding a unique answer.",
+      researcher:
+        "The methodology underlying every modern lattice-KEM parameter set: pick a candidate `(n, m, q, χ)`; run the *lattice estimator* (Albrecht, Player, Scott 2015 and the actively-maintained successors at the `lattice-estimator` project) to produce a security cost in some cost model — `core-SVP` being the de facto standard, with `2^{0.292 β}` (classical) and `2^{0.265 β}` (quantum) as the canonical BKZ-block-size mapping. Verify the cost meets `λ`; convolve `χ` (Kyber's CBD_η, FrodoKEM's discrete-Gaussian-approximation table) to bound `δ` and verify the D'Anvers (2019) adaptive-failure constraint. Iterate. The estimator's output is itself a moving target — new lattice-reduction or sieving results (G6K, BDGL 2016) periodically tighten the bound, and a parameter set valid in 2024 may be downgraded in 2027. Hence the lab's [`sl-bench/sl-kem/INTERPRETATION.md`](https://github.com/systemslibrarian/structureless-labs/blob/main/sl-bench/sl-kem/README.md) rule: numbers without the methodology and cost-model assumptions are not a result."
+    },
+    evidence_grade: "B",
+    evidence_note:
+      "Well-established methodology; the lattice estimator and core-SVP cost model are the canonical reference points. The specific numerical bounds are graded B (not A) because they shift as cryptanalysis improves.",
+    related: ["lwe", "noise", "encoding", "modular", "reconciliation"],
+    citations: ["kyber-2018", "frodokem-2017", "dvv-2019", "albrecht-2015"],
+    attack_links: [],
+    source_spec: null
+  },
+  {
+    id: "attacks",
+    title: "Attacks",
+    subtitle: "Three honest ways to break a lattice KEM (plus side-channels)",
+    category: "foundations",
+    views: {
+      simple:
+        "There are three honest ways to break a lattice KEM. First, find the secret *directly* by guessing or computing — the 'find the needle in a high-dimensional haystack' attack, made hard by big dimensions. Second, find a *close* secret that the math thinks is the right one — the 'closest vector' problem, and how almost all real attacks work in practice. Third, get the legitimate decoder to leak information by feeding it strange inputs and watching when it fails — the 'decryption-failure' attack, and the reason every modern scheme makes failure astronomically rare. None of these is a clever twist; they are systematic, named, and well-studied. A fourth family — *side channels* — lives in the implementation, not the math.",
+      developer:
+        "Three formal attack families against LWE-based KEMs, plus implementation hazards. **(1) Lattice attacks.** Embed LWE into a lattice; run BKZ block reduction with sieving subroutines. The 'primal' variant solves the unique-SVP instance (Kannan embedding); the 'dual' solves a related decisional problem. Cost modeled as `core-SVP` against the block size `β`. **(2) Combinatorial attacks.** BKW (Blum-Kalai-Wasserman) and variants — trade space for time; dominant only in narrow parameter regimes. **(3) Adaptive failure attacks** — D'Anvers, Vercauteren, Verbauwhede (2019) showed an adversary submitting chosen ciphertexts can learn which inputs cause decryption failure and recover the secret in time `~1/δ`. (1) sets parameter dimensions; (3) sets noise distributions; (2) is a sanity check. **Side-channels** (timing, power, EM, fault injection) target the *implementation* and require the Engineer persona's review, not the spec author's.",
+      researcher:
+        "The **primal attack** reduces LWE to unique-SVP via the Kannan embedding; standard cost is `core-SVP` with block size `β` chosen to satisfy the GSA root-Hermite condition. The **dual attack** reduces to a Short Integer Solution (SIS) instance and tests distinguishing advantage with `m^* ≥ m` samples; for some regimes, the dual is asymptotically tighter. Both run BKZ (Chen-Nguyen 2011 and successors) with sieving subroutines (BDGL 2016 classically; Grover-style for the quantum cost model). The lattice estimator (Albrecht-Player-Scott 2015) produces concrete cost figures that move with each cryptanalytic update. **Decryption-failure attacks** (D'Anvers et al. 2019, followed by Guo-Johansson 2021, Bindel-Schanck 2020) act as the floor under noise-distribution choice — modern schemes target `δ ≤ 2^{-160}` or tighter precisely to evade this family. **Side-channels** are out of scope for the formal security argument but require constant-time considerations (and where secrets flow through tabular sampling, replacement of Gaussian-discrete sampling with CBD sampling). The lab's `sl-attacklab` is where structural and (eventually) cryptanalytic findings are filed; [F-0001](https://github.com/systemslibrarian/structureless-labs/blob/main/sl-attacklab/findings/F-0001.md) / [F-0003](https://github.com/systemslibrarian/structureless-labs/blob/main/sl-attacklab/findings/F-0003.md) are examples of the structural variety, filed before any parameter set exists to cryptanalyze."
+    },
+    evidence_grade: "B",
+    evidence_note:
+      "Attack families and their canonical references are well-established; concrete attack costs are an active research area and graded B because they shift with new results.",
+    related: ["lwe", "noise", "encoding", "reconciliation", "lattices"],
+    citations: ["regev-2005", "dvv-2019", "albrecht-2015"],
+    attack_links: [],
+    source_spec: null
+  },
+  {
+    id: "scloud-plus",
+    title: "S-Cloud+",
+    subtitle: "An unstructured-lattice KEM from Wang et al. (2024) — studied here, not endorsed",
+    category: "constructions",
+    views: {
+      simple:
+        "S-Cloud+ is a post-quantum KEM published in 2024 by Wang and collaborators. It is *one* example of a 'structureless lattice' design — meaning it relies on plain unstructured LWE without the extra algebraic structure (rings, modules) that some attacks specifically target. It also uses an unusual encoding (the Barnes-Wall BW₃₂ lattice code) and a standard Fujisaki-Okamoto transform for chosen-ciphertext-attack resistance. We study S-Cloud+ here because the lab's own `sl-kem` lives in the same conservative family, and understanding how someone else solved similar problems makes the lab's own design questions clearer. Important: **studying S-Cloud+ does not mean we are endorsing it for production, and it does not make `sl-kem` more trustworthy.**",
+      developer:
+        "S-Cloud+ (*Wang et al.*, ePrint [2024/1306](https://eprint.iacr.org/2024/1306)) is an unstructured-LWE KEM whose distinctive design choices are: **(a) ternary secret distribution** — secrets sampled from `{−1, 0, +1}^n` rather than a wider CBD range, which lowers ciphertext bandwidth without (per the authors' analysis) materially weakening LWE security in the chosen regime; **(b) Barnes-Wall BW₃₂ lattice encoding** — using the BW family in dimension 32 to maximize the decoder's decoding radius `τ` per dimension, lowering `δ` for a given noise budget; **(c) Fujisaki-Okamoto transform** in the standard Hofheinz-Hövelmanns-Kiltz form for IND-CCA2. The headline practical result (per the paper's tables): smaller keys than FrodoKEM at comparable claimed security, without taking on the algebraic ring structure of ML-KEM. This atlas page describes S-Cloud+ as a *study target*; a faithful TypeScript reimplementation exists at [crypto-lab-scloud-vault](https://github.com/systemslibrarian/crypto-lab-scloud-vault). Adopting S-Cloud+'s parameters into `sl-kem` is what [`sl-kem` D-0003](https://github.com/systemslibrarian/structureless-labs/blob/main/sl-kem/decisions/D-0003.md)'s adopt-by-reference framework permits — *with explicit attribution and non-endorsement*.",
+      researcher:
+        "Wang et al. (2024) instantiate the construction `pk = (A, b = A·s + e)` with `A ∈ Z_q^{m×n}` sampled via a deterministic seed-expander, `s` from a ternary `{−1,0,+1}^n` distribution, and `e` from a centered binomial. Encaps uses standard FO derandomization `(r, e', e'') ← H(μ ‖ H(pk))` and produces `(c_1 = A^T r + e', c_2 = b^T r + e'' + E_{BW_{32}}(μ))` where `E_{BW_{32}}` encodes the message into the Barnes-Wall lattice in dimension 32. The Barnes-Wall family `BW_{2^k}` is one of the dominant choices for KEMs that aim to maximize `τ` per dimension; `BW_{32}` reaches the Mordell minimum kissing-number bound for its dimension. The security argument inherits unstructured-LWE hardness (Regev 2005 and successors) with concrete parameters whose `λ` and `δ` are stated in the published spec. **The lab's relationship to S-Cloud+ is methodological-and-pedagogical only** — see [`sl-researchkit/decisions/D-0002`](https://github.com/systemslibrarian/structureless-labs/blob/main/sl-researchkit/decisions/D-0002.md). Atlas content describes the design; the lab borrows neither Wang et al.'s construction nor their credibility for `sl-kem`."
+    },
+    evidence_grade: "B",
+    evidence_note:
+      "S-Cloud+'s construction and parameters are published and cited; the security argument is the authors'. Grade B reflects strong public consensus (the paper has been on ePrint since 2024) without formal proof in this atlas. **This page is a study of someone else's published KEM. No security claim is made by Structureless Labs about S-Cloud+ or its parameters.**",
+    related: ["lwe", "encoding", "noise", "lattices"],
+    citations: ["scloud-plus-2024", "frodokem-2017"],
+    attack_links: [],
+    source_spec: null
+  },
+  {
     id: "modular",
     title: "Modular Arithmetic (mod q)",
     subtitle: "The clock that every lattice scheme lives on",

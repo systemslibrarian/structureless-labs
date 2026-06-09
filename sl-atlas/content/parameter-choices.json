@@ -1,0 +1,17 @@
+{
+  "id": "parameter-choices",
+  "title": "Parameter choices",
+  "subtitle": "How (n, q, χ) get tuned — the joint optimization of security, bandwidth, and correctness",
+  "category": "foundations",
+  "views": {
+    "simple": "Every cryptographic scheme is a balance. Choose parameters that make attacks too expensive — but not so heavy that legitimate users can't run them. In lattice cryptography, the main knobs are the dimension (how many numbers in the secret), the modulus (the clock size), and the noise size (how much imperfection you mix in). Turn them too low and the math is easy to break; too high and your keys won't fit in a network packet. The published standards — ML-KEM, FrodoKEM — represent particular guesses about where the right balance lives, and that balance is publicly auditable: every parameter set ships with a derivation showing why these specific numbers.",
+    "developer": "Parameter selection for an LWE-based KEM is the joint optimization of `(n, m, q, χ)` against three constraints: **(1) Security target `λ`** (typically 128 / 192 / 256 classical bits, or 64 / 96 / 128 quantum bits under core-SVP), enforced via the lattice-estimator's output. **(2) Decryption-failure target `δ`** (typically `≤ 2^{-λ_sec}` per the D'Anvers et al. (2019) adaptive-failure bound). **(3) Bandwidth/latency envelope** (public-key size, ciphertext size, ops/sec). The trade is non-monotone: raising `n` raises security *and* bandwidth; tightening `χ` lowers `δ` but can lower security; raising `q` gives noise budget but inflates keys. ML-KEM-512 (Kyber) lives at one point in this triangle; FrodoKEM-640 at another. Choosing between them is choosing a position — not finding a unique answer.",
+    "researcher": "The methodology underlying every modern lattice-KEM parameter set: pick a candidate `(n, m, q, χ)`; run the lattice estimator (Albrecht, Player, Scott 2015 and the actively-maintained successors at the lattice-estimator project) to produce a security cost in some cost model — core-SVP being the de facto standard, with `2^{0.292 β}` (classical) and `2^{0.265 β}` (quantum) as the canonical BKZ-block-size mapping. Verify the cost meets `λ`; convolve `χ` (Kyber's CBD_η, FrodoKEM's discrete-Gaussian-approximation table) to bound `δ` and verify the D'Anvers (2019) adaptive-failure constraint. Iterate. The estimator's output is itself a moving target — new lattice-reduction or sieving results (G6K, BDGL 2016) periodically tighten the bound, and a parameter set valid in 2024 may be downgraded in 2027. Hence the lab's sl-bench INTERPRETATION rule: numbers without the methodology and cost-model assumptions are not a result."
+  },
+  "evidence_grade": "B",
+  "evidence_note": "Well-established methodology; the lattice estimator and core-SVP cost model are the canonical reference points. The specific numerical bounds are graded B (not A) because they shift as cryptanalysis improves.",
+  "related": ["lwe", "noise", "encoding", "modular", "reconciliation"],
+  "citations": ["kyber-2018", "frodokem-2017", "dvv-2019", "albrecht-2015"],
+  "attack_links": [],
+  "source_spec": null
+}

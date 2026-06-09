@@ -72,6 +72,13 @@ The adaptive-failure attack constraint cited by sl-atlas Encoding and Noise conc
 by SPEC-000.
 <https://eprint.iacr.org/2018/1089>
 
+### albrecht-2015
+Martin R. Albrecht, Rachel Player, Sam Scott. *"On the Concrete Hardness of Learning with
+Errors."* Journal of Mathematical Cryptology, 9(3), 2015; ePrint 2015/046. The reference
+paper behind the modern LWE estimator; the methodological basis for every concrete
+parameter-set security claim in the lattice-KEM literature.
+<https://eprint.iacr.org/2015/046>
+
 ### scloud-plus-2024
 Wang et al. *"S-Cloud+: A Lattice-Based Post-Quantum KEM"* (or analogous title).
 ePrint 2024/1306. The published structureless-lattice KEM studied in the owner's prior

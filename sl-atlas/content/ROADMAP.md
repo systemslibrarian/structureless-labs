@@ -9,8 +9,15 @@ the Teacher gate before it is published — see
   `sl-atlas/reviews/TEACHER-2026-06-09-encoding.md`.
 - ~~**Reconciliation**~~ — authored 2026-06-09; see `reconciliation.json` and Teacher review
   `sl-atlas/reviews/TEACHER-2026-06-09-reconciliation.md`.
-- **Parameter choices** — the `(n, q, χ)` trade-off space, and the standards' choices.
-- **Attacks** — BKZ, sieving, dual attacks; where concrete security comes from.
+- ~~**Parameter choices**~~ — authored 2026-06-09; see `parameter-choices.json` and
+  Teacher review `sl-atlas/reviews/TEACHER-2026-06-09-parameter-choices.md`.
+- ~~**Attacks**~~ — authored 2026-06-09; see `attacks.json` and Teacher review
+  `sl-atlas/reviews/TEACHER-2026-06-09-attacks.md`.
+
+## New foundations to add (next round)
+- **Side channels** — timing, power, EM, fault injection; Engineer-persona territory.
+- **Hybrid constructions** — classical+PQ (per CONSTITUTION Article 1).
+- **slff format internals** — once F-0002 is resolved and slff has a spec to explain.
 
 ## Held by Teacher gate (drafted; not published)
 
@@ -24,19 +31,12 @@ the Teacher gate before it is published — see
 
 ## Constructions to document (with explicit attribution)
 
-- **S-Cloud+** — *Wang et al.*, ePrint [2024/1306](https://eprint.iacr.org/2024/1306).
-  A published structureless-lattice KEM: unstructured LWE with ternary secrets, Barnes-Wall
-  (BW₃₂) lattice coding, and a Fujisaki-Okamoto transform. A three-depth treatment of
-  S-Cloud+ already largely exists in the owner's separate prior project,
-  [crypto-lab-scloud-vault](https://github.com/systemslibrarian/crypto-lab-scloud-vault)
-  ([live demo](https://systemslibrarian.github.io/crypto-lab-scloud-vault/)), which
-  explains and faithfully reimplements Wang et al.'s design.
-
-  **Status:** `planned`.
-  **TODO:** adapt with attribution to Wang et al. — do **not** import scloud-vault content
-  into this atlas without an explicit decision; the adaptation must clearly preserve
-  Wang et al.'s authorship and must not let the atlas borrow scloud-vault's (or S-Cloud+'s)
-  credibility for any other concept.
+- ~~**S-Cloud+**~~ — authored 2026-06-09; see `scloud-plus.json` and Teacher review
+  `sl-atlas/reviews/TEACHER-2026-06-09-scloud-plus.md`. The atlas page is an original
+  three-depth description of *Wang et al.*'s design with attribution and explicit
+  non-endorsement (per [`sl-researchkit/decisions/D-0002`](../../sl-researchkit/decisions/D-0002.md)).
+  No scloud-vault content was imported; the atlas description is written from public
+  knowledge of the published spec at ePrint [2024/1306](https://eprint.iacr.org/2024/1306).
 
 ## Rules for adopting external content
 
