@@ -3,7 +3,7 @@
 _This file is **generated**. Do not edit by hand. CI regenerates it on every push and
 fails the build if it drifts. Source of truth is the tree itself; this is a view._
 
-Generated: 2026-06-09T22:14:10Z
+Generated: 2026-06-09T22:43:19Z
 
 ## Counts
 
@@ -12,7 +12,7 @@ Generated: 2026-06-09T22:14:10Z
 | Published atlas concepts (in `sl-atlas/src/concepts.js`) | **6** |
 | Blocked atlas drafts (in `sl-atlas/content/` with `status: BLOCKED...`) | **1** |
 | Filed attacklab findings (`sl-attacklab/findings/F-####.md`) | **2** |
-| Flight-recorder decisions (sl-kem + sl-researchkit) | **5** |
+| Flight-recorder decisions (sl-kem + sl-researchkit) | **6** |
 | Predictions on record (`sl-kem/predictions/`) | **2** |
 | Fossils (sl-kem + org-level) | **2** |
 | Atlas Teacher reviews on record | **4** |
@@ -52,6 +52,7 @@ Generated: 2026-06-09T22:14:10Z
 
 - [`D-0001.md`](sl-kem/decisions/D-0001.md)
 - [`D-0002.md`](sl-kem/decisions/D-0002.md)
+- [`D-0003.md`](sl-kem/decisions/D-0003.md)
 
 ## Predictions
 
