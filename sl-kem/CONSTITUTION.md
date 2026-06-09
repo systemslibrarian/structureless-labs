@@ -1,22 +1,20 @@
-# sl-kem Research Constitution
+# sl-kem Constitution — *moved to the org-level [`CONSTITUTION.md`](../CONSTITUTION.md)*
 
-This document governs how sl-kem is researched. It is binding on humans and AI agents.
+This document originally held the Structureless Labs research constitution because
+`sl-kem` was the first project to instantiate the method. As the method became the
+lab's identity (per
+[`sl-researchkit/decisions/D-0001.md`](../sl-researchkit/decisions/D-0001.md)), the
+constitution was promoted to the repo root in its proper org-level home.
 
-## Articles
-1. **Conservatism.** Prefer reviewed primitives and hybrid constructions. Inventing a
-   primitive requires explicit, recorded justification and a Cryptographer BLOCK-clearance.
-2. **Falsifiability.** Every security claim must be falsifiable and evidence-graded.
-3. **Break-it-first.** No design merges without an Attacker review and at least one
-   testable attack hypothesis on record.
-4. **Permanence.** Nothing is deleted. Superseded designs are fossilized; wrong
-   predictions remain on the record.
-5. **Explainability.** Every concept ships with Simple / Developer / Researcher views.
-6. **Provenance.** Every significant decision has a flight-recorder entry.
-7. **Humility.** We state what we are not claiming. We re-ask monthly: *would we build
-   the same design today?*
+**Canonical location:** [`../CONSTITUTION.md`](../CONSTITUTION.md).
 
-## Amendment
-This constitution may be amended only by a recorded decision reviewed by all six personas.
+Per the "nothing is deleted" principle (Article 4), this file is preserved as a
+pointer rather than removed. The full prior content lived in this same file under
+the heading *"sl-kem Research Constitution"* with the seven Articles; it now lives —
+unchanged in substance — at the org root.
+
+If you arrived here from an external link expecting the constitution text, follow
+[`../CONSTITUTION.md`](../CONSTITUTION.md).
 
 ---
 *Soli Deo Gloria — 1 Corinthians 10:31*

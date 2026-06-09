@@ -47,6 +47,42 @@ this lab is making.
 
 ---
 
+## Your first hour, exactly
+
+A skeptical visitor's six-step tour. Each step is a single artifact and a
+single action — designed so that after one hour you have personally
+inspected the method, not just read prose about it.
+
+1. **Click the live demo** → [sl-atlas](https://systemslibrarian.github.io/structureless-labs/).
+   Press `1`/`2`/`3` to see the three depths; press `c` for compare mode;
+   on the LWE page, click *Noise off* and watch the security collapse.
+2. **Read one decision** → [`sl-researchkit/decisions/D-0001.md`](sl-researchkit/decisions/D-0001.md).
+   The "Why structureless?" pivot; observe that two PASS-WITH-NOTES verdicts
+   were *binding* and resolved in the same commit set.
+3. **Read one filed finding** → [`sl-attacklab/findings/F-0001.md`](sl-attacklab/findings/F-0001.md).
+   A break-it-first attempt against the lab's own `sl-kem`. Note the
+   "RESOLVED-PARTIALLY" status — added after the spec it targets landed.
+4. **Read the first BLOCK** → [`sl-researchkit/decisions/D-0003.md`](sl-researchkit/decisions/D-0003.md).
+   The Teacher persona prevented publication of a concept lacking its Simple
+   view. The BLOCK is visible in the atlas sidebar; the gate has teeth.
+5. **Run the harness** →
+   ```bash
+   node sl-bench/sl-kem/harness.mjs --spec SPEC-000 --iters 1000
+   ```
+   It runs, finds no parameters, emits `"TODO"` for every measurement. That's
+   the anti-fabrication rule in action: when there's nothing to measure, the
+   harness says so rather than making up numbers.
+6. **Critique the target** → [`sl-attacklab/targets/T-0001.md`](sl-attacklab/targets/T-0001.md).
+   It freezes SPEC-000 as a structural target. The four legitimate attack
+   types are listed; [F-0003](sl-attacklab/findings/F-0003.md) is the first
+   one filed against it. Read it and find one the lab missed.
+
+By the end, you have inspected: the live artifact, a method-driven decision,
+a filed finding, a recorded BLOCK, the harness output, and the only attackable
+target. That's the whole loop.
+
+---
+
 ## What this is
 
 Most projects publish code. Structureless Labs publishes the whole research
