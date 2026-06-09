@@ -1,40 +1,189 @@
-# Structureless Labs — Organization Scaffold
+# Structureless Labs
 
-This directory is a ready-to-push scaffold for the **Structureless Labs** GitHub
-organization: the org profile plus seven repositories.
+**Open research into conservative post-quantum cryptography, cryptanalysis, and long-term digital preservation.**
 
-> Open research into conservative post-quantum cryptography, cryptanalysis, and
-> long-term digital preservation.
+> We build cryptography research in the open, where every claim is testable, every assumption is documented, and every design is invited to be broken.
 
-## What's here
-
-```
-.github/profile/README.md   → org landing page (create a repo named ".github")
-sl-researchkit/             → AI research framework (build this first)
-sl-atlas/                   → explainable PQC site (signature feature)
-slff/                       → hybrid encrypted file container
-sl-bench/                   → benchmarks / parameter lab
-sl-vectors/                 → reproducible test vectors
-sl-attacklab/               → break-it-first cryptanalysis
-sl-kem/                     → experimental KEM (first project built with the kit)
-```
-
-Each repo ships with: README, LICENSE (Apache-2.0), SECURITY.md, CONTRIBUTING.md.
-sl-researchkit carries the six personas, the Red Team checklist, evidence grading, and
-four workflows (flight recorder, time capsules, AI-vs-AI, monthly journal). sl-kem
-demonstrates the method end-to-end with a constitution, a decision record, a fossil, a
-prediction, and a three-depth explainer.
-
-## Build order (recommended)
-1. **sl-researchkit** — the method must exist before the projects.
-2. **sl-atlas** — start capturing explainers immediately; it's the durable value.
-3. **slff** + **sl-vectors** — integration + reproducibility scaffolding.
-4. **sl-attacklab** + **sl-bench** — open the doors to attacks and measurement.
-5. **sl-kem** — the first primitive run through the full pipeline.
-
-## Pushing to GitHub
-See `SETUP.md` for a copy-paste sequence (one repo each, plus the special `.github` repo
-for the org profile).
+[![Pages: sl-atlas](https://img.shields.io/badge/sl--atlas-live-f5b14a?style=flat-square&logo=github)](https://systemslibrarian.github.io/structureless-labs/)
+[![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-2563eb?style=flat-square)](LICENSE)
+[![Status: experimental](https://img.shields.io/badge/status-experimental-9ca3af?style=flat-square)](#what-we-are-not-claiming)
 
 ---
+
+## Try the demo first
+
+**→ [systemslibrarian.github.io/structureless-labs](https://systemslibrarian.github.io/structureless-labs/)**
+
+The signature feature is live: `sl-atlas`, an interactive learning site that
+renders every post-quantum cryptography concept at three synchronized depths —
+**Simple**, **Developer**, **Researcher**. The Learning With Errors page ships
+with an interactive equation you can flip between *solvable* and *hard* by
+toggling the noise vector.
+
+If you read nothing else in this repo, click that link. The atlas *is* the bet
+this lab is making.
+
+---
+
+## What this is
+
+Most projects publish code. Structureless Labs publishes the whole research
+lifecycle — and treats the lifecycle itself as the product:
+
+| Artifact | What we publish |
+|---|---|
+| **Code** | Reference implementations of every primitive we touch |
+| **Specs** | Versioned, citable documents (with a three-depth explainer per concept) |
+| **Attacks** | A standing invitation to break the designs, with a templated finding format |
+| **Failures** | Fossilized dead-ends — kept forever, never deleted |
+| **Simulations** | Reproducible experiments, benchmarks, parameter sweeps |
+| **Predictions** | Confidence-scored bets, graded later |
+| **Decisions** | A flight recorder of *why* every significant call was made |
+| **Review prompts** | The AI research personas that vetted each change |
+
+This is not a claim that we have solved post-quantum cryptography. It is an
+**open laboratory** for learning, testing, documenting, and challenging
+post-quantum cryptographic ideas — and a reusable *method* for doing so, in
+[`sl-researchkit`](sl-researchkit/).
+
+---
+
+## The bet
+
+The deliberate bet behind the whole organization:
+
+> *The highest-probability contribution from this lab is not a new hard problem.
+> It is better **analysis, methodology, integration, and tooling**.*
+
+That is why [`sl-researchkit`](sl-researchkit/) is the real product, and
+[`sl-kem`](sl-kem/) — the experimental primitive — is its first customer. The
+researchkit ships the six AI personas (Cryptographer, Attacker, Engineer,
+Archivist, Teacher, Principal Investigator), the PQC Red Team Checklist,
+evidence grading, and four research workflows (Flight Recorder, Time Capsules,
+AI-vs-AI Cryptanalysis, Research Journal).
+
+Point any coding agent at `sl-researchkit/personas/` and require that every
+significant change be reviewed by all six before merge. The point of the lab is
+that the method is portable.
+
+---
+
+## The ecosystem
+
+```
+Structureless Labs
+│
+├─ sl-researchkit  AI-assisted research framework — the engine (foundation)
+├─ sl-atlas        Interactive learning site — explainable PQC (LIVE)
+├─ slff            Hybrid encrypted file container (Structureless Labs File Format)
+├─ sl-bench        Benchmarks and parameter comparisons
+├─ sl-vectors      Reproducible, public test vectors
+├─ sl-attacklab    Break-it-first cryptanalysis
+└─ sl-kem          Experimental structureless-lattice KEM
+```
+
+| Repo | Risk | Potential | Status |
+|------|------|-----------|--------|
+| [`sl-researchkit`](sl-researchkit/) | Low | Very high | Foundation — the method |
+| [`sl-atlas`](sl-atlas/) | Low | High | **Live demo** — four concepts authored, LWE interactive |
+| [`slff`](slff/) | Low | High | Spec drafted; integration target |
+| [`sl-bench`](sl-bench/) | Low | Medium | Tooling |
+| [`sl-vectors`](sl-vectors/) | Low | Medium | Reproducibility |
+| [`sl-attacklab`](sl-attacklab/) | Medium | High | Where the hardest questions come from |
+| [`sl-kem`](sl-kem/) | High | High | Experimental — *not for production* |
+
+---
+
+## Principles
+
+1. **Conservative by default.** Reviewed primitives, hybrid constructions, downgrade protection, authenticated headers.
+2. **Break-it-first.** Every design ships with an open invitation to attack it. No design merges without an Attacker review and at least one testable attack hypothesis on record.
+3. **Nothing is deleted.** Old designs become fossils; wrong predictions stay on the record.
+4. **Explainable at three depths.** Every concept has a *Simple*, *Developer*, and *Researcher* view. If a concept lacks any of the three, the Teacher persona BLOCKs publication.
+5. **Evidence over hype.** Claims are evidence-graded (`A`/`B`/`C`/`D`); confidence is stated; humility is built in.
+6. **Provenance.** Every significant decision has a flight-recorder entry. Future readers should be able to reconstruct *why*.
+7. **Falsifiability.** Every security claim must be falsifiable. Unfalsifiable claims are not claims.
+
+The full version, with amendment rules, lives in [`sl-kem/CONSTITUTION.md`](sl-kem/CONSTITUTION.md).
+
+---
+
+## How to engage
+
+| If you are… | Start here |
+|---|---|
+| New to post-quantum cryptography | **[sl-atlas](https://systemslibrarian.github.io/structureless-labs/)** — three-depth explainers |
+| A cryptographer who wants to attack something | [`sl-attacklab/`](sl-attacklab/) — pick a target, file a finding |
+| An engineer who wants to integrate | [`slff/`](slff/) — the hybrid container spec |
+| A researcher reusing the method | [`sl-researchkit/`](sl-researchkit/) — personas, checklists, workflows |
+| Curious about the experimental KEM | [`sl-kem/`](sl-kem/) — *experimental, not for production* |
+| Looking for reproducible test data | [`sl-vectors/`](sl-vectors/) |
+| Comparing parameter sets | [`sl-bench/`](sl-bench/) |
+
+Every repo carries the same four files: `README.md`, `LICENSE` (Apache-2.0),
+`SECURITY.md`, `CONTRIBUTING.md`. Issues, PRs, and finding templates are open.
+
+---
+
+## What we are *not* claiming
+
+- We have not solved post-quantum cryptography. We are not claiming to.
+- `sl-kem` is **experimental**. It is not standardized, not reviewed at scale, and not safe for production data. Use Kyber / ML-KEM for production.
+- The PQC hardness assumptions (LWE, MLWE, GapSVP, SIVP) we build on are *strongly studied*, not *proven*. We grade them accordingly and re-evaluate.
+- The atlas explains the field as we currently understand it. Cryptography evolves; the atlas is expected to.
+
+The willingness to say *what we are not claiming* is, itself, part of the method.
+
+---
+
+## The million-dollar question
+
+Re-asked every month, in every repo:
+
+> *If we were starting this today, with everything we've learned so far, would we build the same design?*
+
+When the answer becomes **no**, the project has learned something. Record it,
+fossilize the old design, and move forward.
+
+---
+
+## Repository layout
+
+```
+.
+├── .github/profile/README.md   org landing page (mirror to a ".github" repo)
+├── sl-atlas/                   the live demo (deploys to Pages)
+├── sl-researchkit/             AI research personas, checklists, workflows
+├── sl-kem/                     experimental KEM (constitution + first explainer)
+├── slff/                       hybrid container format spec
+├── sl-bench/                   benchmarks
+├── sl-vectors/                 test vectors
+├── sl-attacklab/               targets + findings templates
+├── .github/workflows/pages.yml deploys sl-atlas/src/ to GitHub Pages
+├── SETUP.md                    pushing the scaffold to GitHub
+├── SECURITY.md                 responsible disclosure policy
+├── CONTRIBUTING.md             how to contribute
+└── LICENSE                     Apache-2.0
+```
+
+---
+
+## Run the atlas locally
+
+```bash
+python -m http.server 8765 --directory sl-atlas/src
+# → http://localhost:8765/
+```
+
+Zero build step. Pure HTML / CSS / JS. Opens directly via `file://` too.
+
+---
+
+## License
+
+Apache-2.0. See [`LICENSE`](LICENSE). Vendor the full text into each
+sub-project's `LICENSE` before going public (tracked in [`SETUP.md`](SETUP.md)).
+
+---
+
 *Soli Deo Gloria — 1 Corinthians 10:31*
