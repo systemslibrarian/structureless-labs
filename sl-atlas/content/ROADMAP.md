@@ -7,7 +7,8 @@ the Teacher gate before it is published — see
 ## Foundations still to author
 - ~~**Encoding**~~ — authored 2026-06-09; see `encoding.json` and Teacher review
   `sl-atlas/reviews/TEACHER-2026-06-09-encoding.md`.
-- **Reconciliation** — how two parties agree on a shared key from noisy samples.
+- ~~**Reconciliation**~~ — authored 2026-06-09; see `reconciliation.json` and Teacher review
+  `sl-atlas/reviews/TEACHER-2026-06-09-reconciliation.md`.
 - **Parameter choices** — the `(n, q, χ)` trade-off space, and the standards' choices.
 - **Attacks** — BKZ, sieving, dual attacks; where concrete security comes from.
 
