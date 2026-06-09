@@ -1,0 +1,16 @@
+{
+  "id": "noise",
+  "title": "Noise",
+  "subtitle": "Small, deliberate imperfection — the cryptographic raw material",
+  "category": "foundations",
+  "views": {
+    "simple": "Noise here doesn't mean sound. It means a tiny random nudge added on purpose. In daily life, noise is the enemy — it makes signals harder to read. In lattice cryptography, noise is the *friend*: it is what makes the math hard for an attacker. The trick is to add just enough noise to lose the attacker, but not so much that the legitimate decoder cannot still recover the message. This careful balance — *enough but not too much* — is what most of the engineering in a scheme like Kyber is really about.",
+    "developer": "Noise is sampled from a bounded distribution `χ` (usually centered binomial or discrete Gaussian) and added to the equation `b = A·s + e`. The standard deviation `σ` is the central knob. Bigger `σ` → harder for an attacker, but also more *decryption failures*: legitimate decoders use an error-correcting structure to absorb the noise, and if `e` ever exceeds the absorption budget, decryption silently produces the wrong message. Modern schemes (Kyber, Saber, FrodoKEM) tune `(n, q, σ)` so that the decryption-failure probability is astronomically small (e.g. `≤ 2⁻¹⁶⁰`) *and* the LWE problem remains hard.",
+    "researcher": "Let `χ` be a discrete distribution over `Z` with sub-Gaussian parameter `σ`. The LWE distribution is `{(a, ⟨a,s⟩ + e mod q) : a ← U(Z_q^n), e ← χ}`. The relevant trade-off space is bounded by two constraints: (1) the *attacker's* problem must remain hard, formalized via lattice-estimator output against BKZ/sieving with cost models like `core-SVP`; (2) the *decoder's* failure probability `Pr[‖e_total‖_∞ > q/4]` (for a rounding-style decoder) must satisfy the cryptanalytic bound from decryption-failure attacks (D'Anvers et al., 2019). Choosing `χ` as a centered binomial `CBD_η` is preferred for constant-time sampling — Gaussian-discrete sampling has historically been a side-channel hazard."
+  },
+  "evidence_grade": "B",
+  "evidence_note": "Mature engineering; concrete failure-probability bounds are well-understood. The 'enough noise / not too much' trade-off is actively re-evaluated as new attacks appear.",
+  "related": ["lwe", "lattices"],
+  "attack_links": [],
+  "source_spec": null
+}

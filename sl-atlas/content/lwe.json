@@ -1,0 +1,17 @@
+{
+  "id": "lwe",
+  "title": "Learning With Errors",
+  "subtitle": "The hard problem at the heart of lattice cryptography",
+  "category": "foundations",
+  "views": {
+    "simple": "A puzzle made hard by adding small mistakes. Imagine someone hands you lots of almost-right answers to a math problem — each one off by a tiny, unknown nudge. With enough nudges, working backwards to the secret becomes practically impossible. That deliberate imperfection is the lock. Take it away and the puzzle dissolves into something a calculator could solve. This single idea — *make the linear problem noisy* — is the engine behind a whole family of post-quantum cryptography.",
+    "developer": "A linear system with noise added. You publish `(A, b)` where `b = A·s + e (mod q)`. `A` is a public random matrix. `s` is the secret vector. `e` is small random noise drawn from a bounded distribution. Recovering `s` from `(A, b)` is the hard problem your security rests on. **Strip the noise away** and it collapses to ordinary linear algebra — Gaussian elimination solves it in milliseconds. The noise is the lock; the modulus `q` sets the room the math lives in; the dimension `n` sets the difficulty.",
+    "researcher": "Given samples `(A, A·s + e mod q)` with `A ∈ Z_q^{m×n}` uniform, secret `s ∈ Z_q^n`, and error `e` drawn from a bounded distribution `χ`, recover `s`. **Decisional-LWE** asks instead to distinguish such samples from uniform over `Z_q^{m×n} × Z_q^m`. Hardness is parameterized by `(n, q, χ)`; concrete security estimates derive from the best known lattice-reduction (BKZ, sieving) and combinatorial (BKW, dual) attacks against those parameters. Worst-case to average-case reductions (Regev '05; Peikert '09; BLP+ '13) connect LWE to standard lattice problems (GapSVP, SIVP) under appropriate parameter regimes — a structural argument for confidence, not a proof of unbreakability."
+  },
+  "interactive": "lwe-matrix",
+  "evidence_grade": "B",
+  "evidence_note": "Strong consensus across the lattice-crypto literature; the worst-case-to-average-case reductions are well-studied. Concrete security depends on continued cryptanalysis of the assumed parameters — graded 'strong evidence, not proven here.'",
+  "related": ["lattices", "noise", "modular"],
+  "attack_links": [],
+  "source_spec": "../../sl-kem/spec/EXPLAINER-LWE.md"
+}
