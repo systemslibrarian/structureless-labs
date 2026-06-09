@@ -1,0 +1,29 @@
+name: Report doc drift
+description: A README, journal entry, or status surface contradicts the tree.
+title: "[doc-drift] <path>: <one-line description>"
+labels: ["doc-drift", "documentation"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For a lab whose identity is "everything is documented honestly," stale prose
+        is not a cosmetic issue — it directly weakens the credibility claim. CI catches
+        some of this (atlas schema + parity + STATUS.md staleness). This template
+        catches the rest.
+  - type: input
+    id: location
+    attributes:
+      label: File and line
+      placeholder: "e.g. sl-atlas/README.md:29"
+    validations:
+      required: true
+  - type: textarea
+    id: drift
+    attributes:
+      label: What the doc says vs. what the tree says
+    validations:
+      required: true
+  - type: textarea
+    id: fix
+    attributes:
+      label: Suggested fix (or "regenerate STATUS.md", etc.)

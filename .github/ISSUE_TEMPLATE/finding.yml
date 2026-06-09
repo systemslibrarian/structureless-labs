@@ -1,0 +1,80 @@
+name: File a finding (attack hypothesis or break)
+description: File a finding against any artifact in the lab. Attempted attacks (even failed ones) count.
+title: "[finding] <one-line summary>"
+labels: ["finding", "attacklab"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template to file a finding against any artifact in Structureless Labs
+        (a spec, a parameter set, a decision, a published explainer). The template
+        mirrors the format at
+        [`sl-attacklab/findings/FINDING-TEMPLATE.md`](../tree/main/sl-attacklab/findings/FINDING-TEMPLATE.md)
+        so the issue can be promoted into a numbered `F-####.md` finding without rework.
+
+        **Honesty bar:** failed attacks, "this claim is unfalsifiable as written," and
+        spec-readability gaps are all legitimate findings. Truth over drama.
+  - type: input
+    id: target
+    attributes:
+      label: Target
+      description: What artifact are you targeting? Spec version, parameter set, decision ID, finding ID, explainer page.
+      placeholder: "e.g. slff/spec/FORMAT-OVERVIEW.md draft (commit HASH)"
+    validations:
+      required: true
+  - type: textarea
+    id: hypothesis
+    attributes:
+      label: Hypothesis
+      description: What you think might break, and why. Falsifiable, please.
+    validations:
+      required: true
+  - type: textarea
+    id: method
+    attributes:
+      label: Method
+      description: What you did or propose to do. Inspection, simulation, derivation, code.
+    validations:
+      required: true
+  - type: dropdown
+    id: result
+    attributes:
+      label: Result
+      options:
+        - Broken
+        - Not broken
+        - Inconclusive
+        - Hypothesis only (not yet tested)
+    validations:
+      required: true
+  - type: input
+    id: confidence
+    attributes:
+      label: Confidence
+      placeholder: "e.g. 90% in procedural assertion; 0% in any cryptanalytic claim until tested"
+    validations:
+      required: true
+  - type: dropdown
+    id: grade
+    attributes:
+      label: Evidence grade
+      description: Per sl-researchkit/checklists/EVIDENCE-GRADING.md
+      options:
+        - "A — Standardized / peer-reviewed / formally proven"
+        - "B — Strong public consensus"
+        - "C — Internal simulation / reproducible experiment"
+        - "D — Reasoned argument, untested"
+        - "E — Speculation / open question"
+    validations:
+      required: true
+  - type: textarea
+    id: raised
+    attributes:
+      label: Open questions this surfaces
+  - type: input
+    id: date
+    attributes:
+      label: Date
+      placeholder: "YYYY-MM-DD"
+    validations:
+      required: true

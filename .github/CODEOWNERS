@@ -1,0 +1,35 @@
+# Structureless Labs — CODEOWNERS
+# https://docs.github.com/en/repositories/managing-your-repositories-settings-and-features/customizing-your-repository/about-code-owners
+#
+# Single-owner solo lab as of 2026-06. As contributors are onboarded, route
+# subtrees to the personas they specialize in (Cryptographer owns sl-kem/spec/,
+# Engineer owns sl-vectors/, etc.) rather than adding everyone everywhere.
+
+# Catch-all
+*                                   @systemslibrarian
+
+# Method — guard against drift in the personas, checklists, and workflows
+/sl-researchkit/                    @systemslibrarian
+
+# Atlas — guard the three-view contract, schema, and generated content
+/sl-atlas/                          @systemslibrarian
+/sl-atlas/content/schema.json       @systemslibrarian
+/sl-atlas/src/concepts.js           @systemslibrarian
+
+# Experimental primitive — fence stays explicit
+/sl-kem/                            @systemslibrarian
+
+# Format spec — every change has spec-readability + parsing-discipline implications
+/slff/                              @systemslibrarian
+
+# Findings, decisions, fossils — append-only by convention; owner sign-off enforces it
+/sl-attacklab/findings/             @systemslibrarian
+/sl-kem/decisions/                  @systemslibrarian
+/sl-researchkit/decisions/          @systemslibrarian
+/fossils/                           @systemslibrarian
+/sl-kem/fossils/                    @systemslibrarian
+
+# CI — changing the gates changes what the lab can claim
+/.github/workflows/                 @systemslibrarian
+/scripts/                           @systemslibrarian
+/STATUS.md                          @systemslibrarian

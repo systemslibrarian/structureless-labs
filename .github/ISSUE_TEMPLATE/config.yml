@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security disclosure (coordinated)
+    url: https://github.com/systemslibrarian/structureless-labs/security/advisories/new
+    about: For sensitive coordinated disclosure. Public findings still go through the "File a finding" template.
+  - name: Live atlas (read first)
+    url: https://systemslibrarian.github.io/structureless-labs/
+    about: The signature feature — explainable PQC at three depths.

@@ -1,0 +1,31 @@
+name: Open a research question
+description: For the Principal Investigator persona. A question the lab should investigate.
+title: "[research-question] <one-line question>"
+labels: ["research-question", "sl-researchkit"]
+body:
+  - type: textarea
+    id: question
+    attributes:
+      label: The question
+      description: Phrased as a question, falsifiable where possible.
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why this is worth investigating
+      description: What learning does it produce? What does success/failure look like?
+    validations:
+      required: true
+  - type: textarea
+    id: success
+    attributes:
+      label: How will you know you've answered it?
+      description: "Observable conditions. Required by the PI persona checklist:\n`[ ] Success/failure for this change is observable.`"
+    validations:
+      required: true
+  - type: input
+    id: links
+    attributes:
+      label: Related artifacts
+      description: Decisions, findings, predictions that already touch this question.

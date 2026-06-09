@@ -1,0 +1,31 @@
+name: Flag a spec gap or ambiguity
+description: An sl-kem / slff / sl-vectors spec is missing or under-specifies something.
+title: "[spec-gap] <spec>: <gap>"
+labels: ["spec-gap", "documentation"]
+body:
+  - type: input
+    id: spec
+    attributes:
+      label: Spec
+      placeholder: "e.g. slff/spec/FORMAT-OVERVIEW.md"
+    validations:
+      required: true
+  - type: textarea
+    id: gap
+    attributes:
+      label: What is under-specified, ambiguous, or missing
+      description: Concrete sentences or rules. Where possible, name a baseline that solves it (X.509 v3 `critical` bit, JOSE `crit`, etc.).
+    validations:
+      required: true
+  - type: textarea
+    id: impact
+    attributes:
+      label: Why it matters
+      description: What guarantee does the gap silently weaken? What attack surface does it open?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed resolution
+      description: Even a rough sketch helps. The next decision record can be built on it.
