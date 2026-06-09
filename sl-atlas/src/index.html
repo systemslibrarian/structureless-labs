@@ -2,10 +2,22 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>sl-atlas — Explainable PQC</title>
-  <meta name="description" content="An interactive learning site for post-quantum cryptography. Every concept rendered at three synchronized depths: simple, developer, researcher." />
+  <meta name="description" content="An interactive learning site for conservative post-quantum cryptography. Every concept rendered at three synchronized depths: simple, developer, researcher." />
   <meta name="color-scheme" content="dark light" />
+  <meta name="theme-color" content="#0b1020" media="(prefers-color-scheme: dark)" />
+  <meta name="theme-color" content="#fbfaf6" media="(prefers-color-scheme: light)" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="sl-atlas — Explainable PQC" />
+  <meta property="og:description" content="An interactive learning site for conservative post-quantum cryptography. Three-depth explainers (Simple / Developer / Researcher), live LWE demonstration, and an open research method." />
+  <meta property="og:url" content="https://systemslibrarian.github.io/structureless-labs/" />
+  <meta property="og:site_name" content="Structureless Labs" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="sl-atlas — Explainable PQC" />
+  <meta name="twitter:description" content="Conservative post-quantum cryptography, explained at three depths. Live LWE demonstration." />
+
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -15,7 +27,7 @@
     <div class="brand">
       <a href="#/" class="brand-link" aria-label="sl-atlas home">
         <span class="brand-mark" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4" focusable="false">
             <path d="M3 12 L12 3 L21 12 L12 21 Z" />
             <path d="M7.5 12 L12 7.5 L16.5 12 L12 16.5 Z" />
             <circle cx="12" cy="12" r="1.1" fill="currentColor" />
@@ -29,14 +41,13 @@
     </div>
 
     <nav class="site-nav" aria-label="Primary">
-      <a href="https://github.com/Structureless-Labs" target="_blank" rel="noopener" class="nav-link">org</a>
-      <a href="https://github.com/Structureless-Labs/sl-atlas" target="_blank" rel="noopener" class="nav-link">source</a>
-      <button id="theme-toggle" class="icon-button" type="button" aria-label="Toggle color theme" title="Toggle theme (t)">
-        <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+      <a href="https://github.com/systemslibrarian/structureless-labs" target="_blank" rel="noopener" class="nav-link">repo</a>
+      <button id="theme-toggle" class="icon-button" type="button" role="switch" aria-checked="false" aria-label="Light theme" title="Toggle theme (t)">
+        <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true" focusable="false">
           <circle cx="12" cy="12" r="4" />
           <path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
         </svg>
-        <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
           <path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.5 6.5 0 0 0 9.8 9.8Z" />
         </svg>
       </button>
@@ -50,7 +61,7 @@
         <ul id="concept-list" class="concept-list" role="list"></ul>
       </div>
 
-      <div class="sidebar-section muted">
+      <div class="sidebar-section sidebar-roadmap">
         <h2 class="sidebar-heading">Roadmap</h2>
         <ul class="concept-list" role="list">
           <li class="concept-stub">Encoding</li>
@@ -71,10 +82,12 @@
       </div>
     </aside>
 
-    <article id="concept-view" class="concept" aria-live="polite" tabindex="-1">
+    <article id="concept-view" class="concept" tabindex="-1">
       <!-- rendered by app.js -->
     </article>
   </main>
+
+  <div id="sr-status" class="visually-hidden" role="status" aria-live="polite" aria-atomic="true"></div>
 
   <footer class="site-footer">
     <div class="footer-row">
@@ -82,7 +95,7 @@
       <span class="dot" aria-hidden="true">·</span>
       <span class="footer-cell">Apache-2.0</span>
       <span class="dot" aria-hidden="true">·</span>
-      <a href="https://github.com/Structureless-Labs/sl-atlas" target="_blank" rel="noopener" class="footer-cell">source</a>
+      <a href="https://github.com/systemslibrarian/structureless-labs" target="_blank" rel="noopener" class="footer-cell">source</a>
       <span class="dot" aria-hidden="true">·</span>
       <span class="footer-cell">Content authored once; rendered three ways.</span>
     </div>
