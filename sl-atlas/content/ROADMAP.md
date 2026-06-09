@@ -12,6 +12,16 @@ the Teacher gate before it is published — see
 - **Parameter choices** — the `(n, q, χ)` trade-off space, and the standards' choices.
 - **Attacks** — BKZ, sieving, dual attacks; where concrete security comes from.
 
+## Held by Teacher gate (drafted; not published)
+
+- **Decryption Failure Probability** — `BLOCKED 2026-06-09`. Draft exists at
+  `decryption-failure.json` with Developer and Researcher views authored;
+  Simple view explicitly missing. Teacher review:
+  `sl-atlas/reviews/TEACHER-2026-06-09-decryption-failure.md`. Flight-recorder
+  decision: `sl-researchkit/decisions/D-0003.md`. Resolution path: author the
+  Simple view to the standard the Teacher gate requires, then re-submit. The
+  draft does NOT count toward [`PREDICTION-002`](../../sl-kem/predictions/PREDICTION-002.md).
+
 ## Constructions to document (with explicit attribution)
 
 - **S-Cloud+** — *Wang et al.*, ePrint [2024/1306](https://eprint.iacr.org/2024/1306).

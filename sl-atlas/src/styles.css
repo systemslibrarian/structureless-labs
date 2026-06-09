@@ -253,6 +253,28 @@ kbd {
   font-style: italic;
 }
 
+.sidebar-blocked { opacity: 1; }
+.concept-blocked {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 8px;
+  padding: 8px 12px;
+  color: var(--text-soft);
+  font-size: .92rem;
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-sm);
+}
+.pill-block {
+  font-family: var(--font-mono);
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  padding: 2px 7px;
+  background: var(--bad);
+  color: #310a0a;
+  border-radius: 999px;
+}
+[data-theme="light"] .pill-block { color: #fff; }
+
 .sidebar-shortcuts {
   margin-top: 28px;
   padding-top: 18px;
