@@ -83,6 +83,55 @@ const journalEntries = await listIfExists(
   f => /^\d{4}-\d{2}\.md$/.test(f)
 );
 
+// ---------- frozen targets ----------
+const targets = await listIfExists(
+  path.join(ROOT, "sl-attacklab/targets"),
+  f => /^T-\d{4}\.md$/.test(f)
+);
+
+// ---------- versioned specs ----------
+async function listSpecs(subdir) {
+  const dir = path.join(ROOT, subdir);
+  if (!(await exists(dir))) return [];
+  const entries = await readdir(dir);
+  return entries.filter(f => /^SPEC-\d{3}\.md$/.test(f));
+}
+const slkemSpecs = await listSpecs("sl-kem/spec");
+
+// ---------- vector sets (one per spec under sl-vectors/<repo>/SPEC-###/) ----------
+async function listVectorSets(subdir) {
+  const dir = path.join(ROOT, subdir);
+  if (!(await exists(dir))) return [];
+  const entries = await readdir(dir);
+  const sets = [];
+  for (const e of entries) {
+    if (/^SPEC-\d{3}$/.test(e)) {
+      const stub = await stat(path.join(dir, e)).catch(() => null);
+      if (stub && stub.isDirectory()) sets.push(`${subdir}/${e}`);
+    }
+  }
+  return sets;
+}
+const slkemVectors = await listVectorSets("sl-vectors/sl-kem");
+const slffVectors = await listVectorSets("sl-vectors/slff");
+
+// ---------- benchmark runs (one per SPEC subdirectory with a results.json) ----------
+async function listBenchRuns(subdir) {
+  const dir = path.join(ROOT, subdir);
+  if (!(await exists(dir))) return [];
+  const entries = await readdir(dir);
+  const runs = [];
+  for (const e of entries) {
+    if (/^SPEC-\d{3}$/.test(e)) {
+      const resultsPath = path.join(dir, e, "results.json");
+      if (await exists(resultsPath)) runs.push(`${subdir}/${e}`);
+    }
+  }
+  return runs;
+}
+const slkemBench = await listBenchRuns("sl-bench/sl-kem");
+const slffBench = await listBenchRuns("sl-bench/slff");
+
 const now = new Date();
 const stamp = now.toISOString().replace(/\.\d+Z$/, "Z");
 
@@ -106,6 +155,10 @@ const md = [
   `| Fossils (sl-kem + org-level) | **${slkemFossils.length + orgFossils.length}** |`,
   `| Atlas Teacher reviews on record | **${atlasReviews.length}** |`,
   `| Journal entries | **${journalEntries.length}** |`,
+  `| Versioned sl-kem specs (\`sl-kem/spec/SPEC-###.md\`) | **${slkemSpecs.length}** |`,
+  `| Frozen attack targets (\`sl-attacklab/targets/T-####.md\`) | **${targets.length}** |`,
+  `| Vector sets (\`sl-vectors/<repo>/SPEC-###/\`) | **${slkemVectors.length + slffVectors.length}** |`,
+  `| Benchmark runs (\`sl-bench/<repo>/SPEC-###/results.json\`) | **${slkemBench.length + slffBench.length}** |`,
   "",
   "## Published atlas concepts",
   "",
@@ -167,6 +220,30 @@ const md = [
   "",
   journalEntries.length
     ? journalEntries.map(j => `- [\`${j}\`](journal/${j})`).join("\n")
+    : "_(none)_",
+  "",
+  "## sl-kem specs",
+  "",
+  slkemSpecs.length
+    ? slkemSpecs.map(s => `- [\`${s}\`](sl-kem/spec/${s})`).join("\n")
+    : "_(none)_",
+  "",
+  "## Frozen attack targets",
+  "",
+  targets.length
+    ? targets.map(t => `- [\`${t}\`](sl-attacklab/targets/${t})`).join("\n")
+    : "_(none)_",
+  "",
+  "## Vector sets",
+  "",
+  (slkemVectors.length + slffVectors.length)
+    ? [...slkemVectors, ...slffVectors].map(v => `- [\`${v}/\`](${v}/)`).join("\n")
+    : "_(none)_",
+  "",
+  "## Benchmark runs",
+  "",
+  (slkemBench.length + slffBench.length)
+    ? [...slkemBench, ...slffBench].map(b => `- [\`${b}/\`](${b}/)`).join("\n")
     : "_(none)_",
   "",
   "---",

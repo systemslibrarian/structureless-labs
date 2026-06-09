@@ -3,7 +3,7 @@
 _This file is **generated**. Do not edit by hand. CI regenerates it on every push and
 fails the build if it drifts. Source of truth is the tree itself; this is a view._
 
-Generated: 2026-06-09T12:15:40Z
+Generated: 2026-06-09T22:14:10Z
 
 ## Counts
 
@@ -12,11 +12,15 @@ Generated: 2026-06-09T12:15:40Z
 | Published atlas concepts (in `sl-atlas/src/concepts.js`) | **6** |
 | Blocked atlas drafts (in `sl-atlas/content/` with `status: BLOCKED...`) | **1** |
 | Filed attacklab findings (`sl-attacklab/findings/F-####.md`) | **2** |
-| Flight-recorder decisions (sl-kem + sl-researchkit) | **4** |
+| Flight-recorder decisions (sl-kem + sl-researchkit) | **5** |
 | Predictions on record (`sl-kem/predictions/`) | **2** |
 | Fossils (sl-kem + org-level) | **2** |
 | Atlas Teacher reviews on record | **4** |
 | Journal entries | **1** |
+| Versioned sl-kem specs (`sl-kem/spec/SPEC-###.md`) | **1** |
+| Frozen attack targets (`sl-attacklab/targets/T-####.md`) | **1** |
+| Vector sets (`sl-vectors/<repo>/SPEC-###/`) | **1** |
+| Benchmark runs (`sl-bench/<repo>/SPEC-###/results.json`) | **1** |
 
 ## Published atlas concepts
 
@@ -47,6 +51,7 @@ Generated: 2026-06-09T12:15:40Z
 ### sl-kem
 
 - [`D-0001.md`](sl-kem/decisions/D-0001.md)
+- [`D-0002.md`](sl-kem/decisions/D-0002.md)
 
 ## Predictions
 
@@ -73,6 +78,22 @@ Generated: 2026-06-09T12:15:40Z
 ## Journal
 
 - [`2026-06.md`](journal/2026-06.md)
+
+## sl-kem specs
+
+- [`SPEC-000.md`](sl-kem/spec/SPEC-000.md)
+
+## Frozen attack targets
+
+- [`T-0001.md`](sl-attacklab/targets/T-0001.md)
+
+## Vector sets
+
+- [`sl-vectors/sl-kem/SPEC-000/`](sl-vectors/sl-kem/SPEC-000/)
+
+## Benchmark runs
+
+- [`sl-bench/sl-kem/SPEC-000/`](sl-bench/sl-kem/SPEC-000/)
 
 ---
 *Soli Deo Gloria — 1 Corinthians 10:31*
