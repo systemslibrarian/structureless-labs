@@ -6,6 +6,7 @@
 
 [![Pages: sl-atlas](https://img.shields.io/badge/sl--atlas-live-f5b14a?style=flat-square&logo=github)](https://systemslibrarian.github.io/structureless-labs/)
 [![Method: sl-researchkit](https://img.shields.io/badge/method-sl--researchkit-2563eb?style=flat-square)](sl-researchkit/)
+[![Status surface: STATUS.md](https://img.shields.io/badge/status-generated-16a34a?style=flat-square)](STATUS.md)
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-6b7280?style=flat-square)](LICENSE)
 [![sl-kem: experimental](https://img.shields.io/badge/sl--kem-experimental-d97706?style=flat-square)](sl-kem/)
 
@@ -173,19 +174,41 @@ fossilize the old design, and move forward.
 ```
 .
 ├── .github/profile/README.md   org landing page (mirror to a ".github" repo)
+├── .github/workflows/          pages deploy + validate (schema/parity/STATUS) + links
+├── .github/ISSUE_TEMPLATE/     finding / spec-gap / doc-drift / research-question
 ├── sl-atlas/                   the live demo (deploys to Pages)
-├── sl-researchkit/             AI research personas, checklists, workflows
+├── sl-researchkit/             AI research personas, checklists, workflows, decisions
 ├── sl-kem/                     experimental KEM (constitution + first explainer)
 ├── slff/                       hybrid container format spec
 ├── sl-bench/                   benchmarks
 ├── sl-vectors/                 test vectors
-├── sl-attacklab/               targets + findings templates
-├── .github/workflows/pages.yml deploys sl-atlas/src/ to GitHub Pages
+├── sl-attacklab/               targets + filed findings
+├── fossils/                    org-level fossils (nothing is deleted)
+├── journal/                    monthly research journal entries
+├── scripts/                    validate-atlas / check-atlas-parity / gen-status
+├── STATUS.md                   generated status surface (CI-enforced)
 ├── SETUP.md                    pushing the scaffold to GitHub
 ├── SECURITY.md                 responsible disclosure policy
+├── NOTICE                      project attribution
 ├── CONTRIBUTING.md             how to contribute
 └── LICENSE                     Apache-2.0
 ```
+
+## How the method enforces itself
+
+The lab's stated rigor is backed by CI gates, not just prose:
+
+- **`validate-atlas`** — every concept JSON validates against
+  [`sl-atlas/content/schema.json`](sl-atlas/content/schema.json).
+- **`check-atlas-parity`** — concepts in `sl-atlas/src/concepts.js` and
+  publishable JSON files in `sl-atlas/content/` must match exactly. A BLOCKED
+  draft cannot accidentally appear in the live atlas; a published concept
+  cannot lose its mirror JSON without the build failing.
+- **`gen-status --check`** — [`STATUS.md`](STATUS.md) is regenerated from the
+  tree on every push and the build fails if it drifts. Hand-maintained counts
+  in prose are not the source of truth; this file is.
+- **Link checker** — every markdown file in the repo is checked weekly and on
+  every PR.
 
 ---
 

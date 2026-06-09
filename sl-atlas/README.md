@@ -26,14 +26,20 @@ Teacher persona BLOCKs publication.
 
 ## What's running today
 
-The demo in [`src/`](src/) ships with four foundational concepts authored end-to-end:
+The demo in [`src/`](src/) ships with **six** foundational concepts authored end-to-end
+and **one** held by the Teacher gate. Counts in this README are intentionally minimal
+because the canonical inventory is generated from the tree — see
+[`STATUS.md`](../STATUS.md) for the auditable current totals.
 
-| Concept | Grade | Interactive |
-|---|---|---|
-| Learning With Errors | B | Live matrix `b = A·s + e (mod q)` with a noise toggle |
-| Lattices | A | — |
-| Noise | B | — |
-| Modular Arithmetic | A | — |
+| Concept | Grade | Status | Notes |
+|---|---|---|---|
+| Learning With Errors | B | Published | Live matrix `b = A·s + e (mod q)` with a noise toggle |
+| Lattices | A | Published | — |
+| Noise | B | Published | — |
+| Modular Arithmetic | A | Published | — |
+| Encoding | B | Published | Cross-links into the LWE noise discussion |
+| Reconciliation | B | Published | Helper-bit vs. encryption-style |
+| Decryption Failure Probability | B | **BLOCKED 2026-06-09** | Missing Simple view; see [Teacher review](reviews/TEACHER-2026-06-09-decryption-failure.md) and [D-0003](../sl-researchkit/decisions/D-0003.md) |
 
 Plus:
 
@@ -84,9 +90,16 @@ artifact). The included `.nojekyll` disables Jekyll preprocessing.
 
 ## What's still ahead
 
-The roadmap in the sidebar names the next concepts: Encoding, Reconciliation, Parameter
-choices, Attacks. Each new entry is a small structured document, never a bespoke page —
-the three-view contract holds across the whole atlas.
+The roadmap in the sidebar names the next concepts: **Parameter choices**, **Attacks**,
+and **S-Cloud+** (planned; *Wang et al.*, ePrint [2024/1306](https://eprint.iacr.org/2024/1306) —
+adapt with attribution; see [`content/ROADMAP.md`](content/ROADMAP.md)). Each new entry
+is a small structured document, never a bespoke page — the three-view contract holds
+across the whole atlas.
+
+Drift control: the README's count and table are **not** the source of truth. CI validates
+every concept in `src/concepts.js` against [`content/schema.json`](content/schema.json),
+asserts content/ parity, and regenerates [`STATUS.md`](../STATUS.md) — if any of those
+go stale, the build fails.
 
 ---
 
