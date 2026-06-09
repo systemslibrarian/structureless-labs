@@ -95,6 +95,14 @@ function validate(doc, file) {
       if (typeof r !== "string" || !/^[a-z][a-z0-9-]*[a-z0-9]$/.test(r)) fail(file, `related entry "${r}" must be a kebab-case string`);
     }
   }
+
+  // citations
+  if ("citations" in doc) {
+    if (!Array.isArray(doc.citations)) fail(file, `citations must be an array`);
+    else for (const c of doc.citations) {
+      if (typeof c !== "string" || !/^[a-z][a-z0-9-]*[a-z0-9]$/.test(c)) fail(file, `citation "${c}" must be a kebab-case string (registered in CITATIONS.md)`);
+    }
+  }
 }
 
 const entries = await readdir(CONTENT_DIR);

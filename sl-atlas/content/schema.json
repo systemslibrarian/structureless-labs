@@ -47,6 +47,15 @@
       "type": "array",
       "items": { "type": "string" }
     },
+    "citations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9-]*[a-z0-9]$",
+        "description": "Short ID of an entry registered in CITATIONS.md at the repo root."
+      },
+      "description": "External works this concept cites at any depth. Every ID must exist in CITATIONS.md — enforced by scripts/check-citations.mjs."
+    },
     "source_spec": { "type": ["string", "null"] },
     "status": {
       "type": "string",

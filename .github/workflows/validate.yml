@@ -25,5 +25,8 @@ jobs:
       - name: Check sl-atlas/src/concepts.js ↔ sl-atlas/content/ parity
         run: node scripts/check-atlas-parity.mjs
 
+      - name: Check every citation ID exists in CITATIONS.md
+        run: node scripts/check-citations.mjs
+
       - name: Assert STATUS.md is up to date
         run: node scripts/gen-status.mjs --check
