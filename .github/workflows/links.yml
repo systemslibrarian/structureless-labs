@@ -22,10 +22,10 @@ jobs:
       - name: Lychee — check every markdown file in the repo
         uses: lycheeverse/lychee-action@v2
         with:
+          # lychee v0.23+ excludes mailto: links by default; --include-mail to opt in.
           args: >-
             --no-progress
             --max-concurrency 4
             --accept '200..=299, 403, 429'
-            --exclude-mail
             './**/*.md'
           fail: true
