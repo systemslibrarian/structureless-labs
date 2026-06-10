@@ -27,6 +27,7 @@ node scripts/validate-atlas.mjs        # JSON Schema validation for every sl-atl
 node scripts/check-atlas-parity.mjs    # concepts.js ↔ content/ parity, BLOCK honored
 node scripts/check-citations.mjs       # every citation ID resolves in CITATIONS.md
 node scripts/check-no-fabrication.mjs  # STRUCTURAL DRAFT specs have no concrete numbers
+node scripts/check-lwe-math.mjs        # LWE interactive math invariants (I1/I2/I3)
 node scripts/gen-status.mjs --check    # STATUS.md is up to date with the tree
 ```
 
@@ -50,6 +51,27 @@ npx serve sl-atlas/src
 
 Or just double-click `sl-atlas/src/index.html` — it works from `file://` because all
 content is embedded in `concepts.js` / `citations.js` / `blocked.js`.
+
+### Verify the LWE interactive
+
+Once the atlas is up, navigate to **Learning With Errors** in the sidebar. The
+upgrade landed in `sl-atlas/decisions/D-0001.md` and is reproducible offline:
+
+1. Leave the preset on **Toy** (`n=3, m=4, q=17, η=1`).
+2. Press **Try to solve** with *Noise on*. The recovered `s′` differs from
+   the true `s`; the per-row verification pills show only the first `n` rows
+   verifying — those were forced by the elimination.
+3. Press **Noise off**, then **Try to solve** again. The recovered `s′` now
+   equals `s` and every row verifies green.
+4. Switch to **Small** (`q=97`) and **Medium** (`q=257`) and repeat. The
+   collapse happens at every scale; the matrices just get bigger.
+5. Press **Export**. The JSON object includes the seed; pasting that seed +
+   parameters into any environment with the same PRNG (`mulberry32`)
+   regenerates `A`, `s`, and `e` bit-for-bit.
+
+You have now personally executed the attack the developer-view paragraph
+describes ("Strip the noise away and it collapses to ordinary linear
+algebra — Gaussian elimination solves it in milliseconds").
 
 ## Run the benchmark harness
 

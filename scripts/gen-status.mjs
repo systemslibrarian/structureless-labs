@@ -54,6 +54,10 @@ const researchkitDecisions = await listIfExists(
   path.join(ROOT, "sl-researchkit/decisions"),
   f => /^D-\d{4}\.md$/.test(f)
 );
+const atlasDecisions = await listIfExists(
+  path.join(ROOT, "sl-atlas/decisions"),
+  f => /^D-\d{4}\.md$/.test(f)
+);
 
 // ---------- predictions ----------
 const predictions = await listIfExists(
@@ -150,7 +154,7 @@ const md = [
   `| Published atlas concepts (in \`sl-atlas/src/concepts.js\`) | **${publishedConcepts.length}** |`,
   `| Blocked atlas drafts (in \`sl-atlas/content/\` with \`status: BLOCKED...\`) | **${blockedConcepts.length}** |`,
   `| Filed attacklab findings (\`sl-attacklab/findings/F-####.md\`) | **${findings.length}** |`,
-  `| Flight-recorder decisions (sl-kem + sl-researchkit) | **${slkemDecisions.length + researchkitDecisions.length}** |`,
+  `| Flight-recorder decisions (sl-kem + sl-researchkit + sl-atlas) | **${slkemDecisions.length + researchkitDecisions.length + atlasDecisions.length}** |`,
   `| Predictions on record (\`sl-kem/predictions/\`) | **${predictions.length}** |`,
   `| Fossils (sl-kem + org-level) | **${slkemFossils.length + orgFossils.length}** |`,
   `| Atlas Teacher reviews on record | **${atlasReviews.length}** |`,
@@ -188,6 +192,12 @@ const md = [
   "",
   slkemDecisions.length
     ? slkemDecisions.map(d => `- [\`${d}\`](sl-kem/decisions/${d})`).join("\n")
+    : "_(none)_",
+  "",
+  "### sl-atlas",
+  "",
+  atlasDecisions.length
+    ? atlasDecisions.map(d => `- [\`${d}\`](sl-atlas/decisions/${d})`).join("\n")
     : "_(none)_",
   "",
   "## Predictions",

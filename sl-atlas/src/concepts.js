@@ -75,6 +75,7 @@ window.SL_ATLAS_CONCEPTS = [
       researcher:
         "Let `L ⊂ R^n` be a lattice with minimum distance `λ₁(L)`, and let `M` be a finite message space. An encoder–decoder pair `(E, D)` satisfies the *recovery property* if for all `m ∈ M` and all `e` with `‖e‖ ≤ τ`, `D(E(m) + e) = m`, where `τ` is the *decoding radius*. The KEM's decryption-failure probability is `Pr_{e∼χ_total}[‖e_total‖ > τ]`, where `χ_total` is the convolution of LWE noise, key noise, and any rounding error. The design knob `(n, τ, |M|)` is what differentiates schemes: denser codes raise `|M|/n` but reduce `τ`, forcing tighter `χ` and altering the lattice-estimator output. Reed-Muller and Barnes-Wall codes (the Barnes-Wall family `BW_{2^k}`) are the dominant choices when the goal is to maximize `τ` per dimension; the `BW₃₂` instance used in S-Cloud+ (Wang et al., 2024) is one concrete realization of that strategy. Encoding choices are not orthogonal to the security argument — they enter the decryption-failure bound, which itself is attackable (D'Anvers et al., 2019)."
     },
+    interactive: "encoding-1d",
     evidence_grade: "B",
     evidence_note:
       "Well-established design discipline: the encoder-decoder pair, the recovery property, and the failure-probability accounting are standard textbook material. Specific code choices (Reed-Muller vs. Barnes-Wall vs. bitwise) are an active engineering debate — graded B because the trade-off space is mature but not closed.",

@@ -39,11 +39,69 @@ The relationship to Structureless Labs is **theme and demonstrated skill only**.
 The signature feature is live: `sl-atlas`, an interactive learning site that
 renders every post-quantum cryptography concept at three synchronized depths —
 **Simple**, **Developer**, **Researcher**. The Learning With Errors page ships
-with an interactive equation you can flip between *solvable* and *hard* by
-toggling the noise vector.
+with a configurable LWE equation. Pick **Toy / Small / Medium** parameters,
+toggle the noise vector, then press **Try to solve** to watch modular Gaussian
+elimination *literally execute in your browser*: with noise off it recovers the
+secret exactly; with noise on it returns the wrong vector and most rows fail
+verification. The attack collapsing in real time is the whole point of lattice
+cryptography in one button.
 
 If you read nothing else in this repo, click that link. The atlas *is* the bet
 this lab is making.
+
+---
+
+## How a concept is born (and how the Teacher gate prevents shortcuts)
+
+The atlas's "three depths" are not three reformattings of the same paragraph.
+They are three independent obligations, and a Teacher review can BLOCK
+publication if any one is weak. The shape of the workflow:
+
+```
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │  Author drafts ONE concept                                          │
+  │  ─────────────────────────                                          │
+  │   Simple view ───────►  for a curious non-expert (no jargon)        │
+  │   Developer view ────►  for a working programmer (code + intuition) │
+  │   Researcher view ───►  precise, formal, citation-grounded          │
+  │   evidence_grade  ───►  A / B / C / D, with a one-line note         │
+  │   citations       ───►  registered IDs that resolve to CITATIONS.md │
+  └────────────────────────────────┬────────────────────────────────────┘
+                                   │
+                                   ▼
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │  CI gates (mechanical)                                              │
+  │   • validate-atlas       schema-conforming JSON                     │
+  │   • check-atlas-parity   concepts.js ↔ content/*.json match         │
+  │   • check-citations      every citation ID resolves                 │
+  │   • check-no-fabrication structural-draft specs stay number-free    │
+  └────────────────────────────────┬────────────────────────────────────┘
+                                   │
+                                   ▼
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │  Six-persona review (human / AI)                                    │
+  │   Cryptographer · Attacker · Engineer · Archivist · Teacher · PI    │
+  └────────────────────────────────┬────────────────────────────────────┘
+                                   │
+                ┌──────────────────┴──────────────────┐
+                ▼                                     ▼
+       ╔══════════════════╗                  ╔══════════════════╗
+       ║  PASS / PASS+    ║                  ║      BLOCK       ║
+       ║  WITH NOTES      ║                  ║ (Teacher gate)   ║
+       ╚════════╤═════════╝                  ╚════════╤═════════╝
+                │                                     │
+                ▼                                     ▼
+   Published in sl-atlas/src/concepts.js   Held in sl-atlas/content/<id>.json
+   (the live site renders it)              (live site shows a "BLOCKED"
+                                            stub linking to the Teacher review
+                                            and the recorded decision)
+```
+
+The BLOCK path is not theoretical. The first one is on the record at
+[`sl-researchkit/decisions/D-0003.md`](sl-researchkit/decisions/D-0003.md) —
+the `decryption-failure` concept lacks a publishable Simple view and is
+visible in the atlas sidebar under "Held by Teacher gate." The gate has
+teeth, and you can see them.
 
 ---
 

@@ -15,11 +15,19 @@ workflows/     Repeatable processes — AI-vs-AI cryptanalysis, the monthly jour
                the flight recorder, the time-capsule prediction loop.
 ```
 
-## How to use it
+## How to use it (in this lab)
 
 Point your coding agent at `personas/` and require that **every significant change be
 reviewed by all six personas** before merge. Run the `checklists/` as a merge gate. Use
 the `workflows/` to keep the research alive and honest over years, not weeks.
+
+## How to use it (on your own project)
+
+See [`STARTER.md`](STARTER.md) — a single-file bootstrap that walks an external researcher
+through adopting this method on a completely different project (ML safety, distributed
+systems, biology — anything research-shaped). Nine numbered steps, copyable commands, one
+verbatim agent prompt that drives a six-perspective review. About an hour from clone to
+first decision.
 
 ## The million-dollar question
 

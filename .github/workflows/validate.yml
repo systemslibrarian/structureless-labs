@@ -34,5 +34,8 @@ jobs:
       - name: Anti-fabrication regression test (STRUCTURAL DRAFT specs have no numbers)
         run: node scripts/check-no-fabrication.mjs
 
+      - name: LWE-interactive math regression test (sl-atlas demo invariants)
+        run: node scripts/check-lwe-math.mjs
+
       - name: Assert STATUS.md is up to date
         run: node scripts/gen-status.mjs --check

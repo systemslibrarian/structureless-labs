@@ -115,6 +115,12 @@ Not fixed by SPEC-000 (each item below is a separate flight-recorder decision be
 Each open decision should be filed with its own `D-NNNN` in `sl-kem/decisions/` before
 SPEC-001 lands.
 
+The operational guide for whoever writes SPEC-001 — the open-decision map, the
+six-persona prompt template, and the pre-merge checklist — lives in
+[`AUTHORING-BRIEF-SPEC-001.md`](AUTHORING-BRIEF-SPEC-001.md). That brief does **not**
+pre-decide any open decision; it ensures the next author starts from a complete map of
+what D-0003 already required.
+
 ---
 
 ## Attack surface (for `sl-attacklab/targets/T-0001`)

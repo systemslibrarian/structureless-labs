@@ -3,7 +3,7 @@
 _This file is **generated**. Do not edit by hand. CI regenerates it on every push and
 fails the build if it drifts. Source of truth is the tree itself; this is a view._
 
-Generated: 2026-06-10T11:39:53Z
+Generated: 2026-06-10T22:50:58Z
 
 ## Counts
 
@@ -12,8 +12,8 @@ Generated: 2026-06-10T11:39:53Z
 | Published atlas concepts (in `sl-atlas/src/concepts.js`) | **12** |
 | Blocked atlas drafts (in `sl-atlas/content/` with `status: BLOCKED...`) | **1** |
 | Filed attacklab findings (`sl-attacklab/findings/F-####.md`) | **3** |
-| Flight-recorder decisions (sl-kem + sl-researchkit) | **6** |
-| Predictions on record (`sl-kem/predictions/`) | **2** |
+| Flight-recorder decisions (sl-kem + sl-researchkit + sl-atlas) | **8** |
+| Predictions on record (`sl-kem/predictions/`) | **3** |
 | Fossils (sl-kem + org-level) | **2** |
 | Atlas Teacher reviews on record | **10** |
 | Journal entries | **1** |
@@ -61,10 +61,16 @@ Generated: 2026-06-10T11:39:53Z
 - [`D-0002.md`](sl-kem/decisions/D-0002.md)
 - [`D-0003.md`](sl-kem/decisions/D-0003.md)
 
+### sl-atlas
+
+- [`D-0001.md`](sl-atlas/decisions/D-0001.md)
+- [`D-0002.md`](sl-atlas/decisions/D-0002.md)
+
 ## Predictions
 
 - [`PREDICTION-001.md`](sl-kem/predictions/PREDICTION-001.md)
 - [`PREDICTION-002.md`](sl-kem/predictions/PREDICTION-002.md)
+- [`PREDICTION-003.md`](sl-kem/predictions/PREDICTION-003.md)
 
 ## Fossils
 
