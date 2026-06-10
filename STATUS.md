@@ -3,19 +3,19 @@
 _This file is **generated**. Do not edit by hand. CI regenerates it on every push and
 fails the build if it drifts. Source of truth is the tree itself; this is a view._
 
-Generated: 2026-06-09T23:04:21Z
+Generated: 2026-06-10T11:39:53Z
 
 ## Counts
 
 | Artifact | Count |
 |---|---|
-| Published atlas concepts (in `sl-atlas/src/concepts.js`) | **9** |
+| Published atlas concepts (in `sl-atlas/src/concepts.js`) | **12** |
 | Blocked atlas drafts (in `sl-atlas/content/` with `status: BLOCKED...`) | **1** |
 | Filed attacklab findings (`sl-attacklab/findings/F-####.md`) | **3** |
 | Flight-recorder decisions (sl-kem + sl-researchkit) | **6** |
 | Predictions on record (`sl-kem/predictions/`) | **2** |
 | Fossils (sl-kem + org-level) | **2** |
-| Atlas Teacher reviews on record | **7** |
+| Atlas Teacher reviews on record | **10** |
 | Journal entries | **1** |
 | Versioned sl-kem specs (`sl-kem/spec/SPEC-###.md`) | **1** |
 | Frozen attack targets (`sl-attacklab/targets/T-####.md`) | **1** |
@@ -33,6 +33,9 @@ Generated: 2026-06-09T23:04:21Z
 - `attacks` — Attacks (grade B)
 - `scloud-plus` — S-Cloud+ (grade B)
 - `modular` — Modular Arithmetic (mod q) (grade A)
+- `side-channels` — Side channels (grade B)
+- `hybrid-constructions` — Hybrid constructions (grade A)
+- `slff-format` — slff format internals (grade C)
 
 ## Blocked atlas drafts
 
@@ -82,6 +85,9 @@ Generated: 2026-06-09T23:04:21Z
 - [`TEACHER-2026-06-09-reconciliation.md`](sl-atlas/reviews/TEACHER-2026-06-09-reconciliation.md)
 - [`TEACHER-2026-06-09-scloud-plus.md`](sl-atlas/reviews/TEACHER-2026-06-09-scloud-plus.md)
 - [`TEACHER-2026-06-09.md`](sl-atlas/reviews/TEACHER-2026-06-09.md)
+- [`TEACHER-2026-06-10-hybrid-constructions.md`](sl-atlas/reviews/TEACHER-2026-06-10-hybrid-constructions.md)
+- [`TEACHER-2026-06-10-side-channels.md`](sl-atlas/reviews/TEACHER-2026-06-10-side-channels.md)
+- [`TEACHER-2026-06-10-slff-format.md`](sl-atlas/reviews/TEACHER-2026-06-10-slff-format.md)
 
 ## Journal
 

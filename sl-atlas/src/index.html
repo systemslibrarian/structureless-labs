@@ -54,6 +54,27 @@
     </nav>
   </header>
 
+  <details class="atlas-intro" id="atlas-intro">
+    <summary>
+      <span class="atlas-intro-title">What is this?</span>
+      <span class="atlas-intro-tag">three depths · one open method · live demo</span>
+    </summary>
+    <div class="atlas-intro-body">
+      <p>
+        <strong>sl-atlas is an interactive textbook for post-quantum lattice cryptography</strong> — and a working demonstration of the lab's research method. Every concept renders at three depths so the same material reaches a curious non-expert, a working programmer, and a formal researcher without any of them reading the others' version.
+      </p>
+      <ul class="atlas-intro-list">
+        <li><strong>Pick a depth.</strong> Press <kbd>1</kbd> Simple, <kbd>2</kbd> Developer, <kbd>3</kbd> Researcher, or <kbd>c</kbd> for side-by-side Compare. Move between concepts with <kbd>j</kbd> / <kbd>k</kbd>.</li>
+        <li><strong>Try the live demo.</strong> On <a href="#/lwe">Learning With Errors</a>, click <em>Noise off</em> and watch a secure scheme collapse into linear algebra a calculator could solve. That single demonstration is the whole point of lattice cryptography in one toggle.</li>
+        <li><strong>The sidebar shows the method, not just the content.</strong> <em>Foundations</em> is what's published. <em>Held by Teacher gate</em> is what the lab's own editorial review refused to publish — click a <span class="pill-block">BLOCK</span>ed concept to read the draft and the reason. The gate has teeth; you can see them.</li>
+        <li><strong>Every claim has a provenance chain.</strong> Each concept carries an evidence grade and citation IDs that resolve to <a href="https://github.com/systemslibrarian/structureless-labs/blob/main/CITATIONS.md" target="_blank" rel="noopener">CITATIONS.md</a>. CI fails the build if any reference rots.</li>
+      </ul>
+      <p class="atlas-intro-cta">
+        New here? The <a href="https://github.com/systemslibrarian/structureless-labs#your-first-hour-exactly" target="_blank" rel="noopener">first-hour visitor path</a> walks the whole lab in six steps. Or just start exploring — pick a concept from the sidebar.
+      </p>
+    </div>
+  </details>
+
   <main class="layout">
     <aside class="sidebar" aria-label="Concepts">
       <div class="sidebar-section">
@@ -61,17 +82,9 @@
         <ul id="concept-list" class="concept-list" role="list"></ul>
       </div>
 
-      <div class="sidebar-section sidebar-roadmap">
-        <h2 class="sidebar-heading">Roadmap</h2>
-        <ul class="concept-list" role="list">
-          <li class="concept-stub">Side channels</li>
-          <li class="concept-stub">Hybrid constructions</li>
-          <li class="concept-stub">slff format internals</li>
-        </ul>
-      </div>
-
       <div class="sidebar-section sidebar-blocked">
         <h2 class="sidebar-heading">Held by Teacher gate</h2>
+        <p class="sidebar-hint">Drafts our editorial reviewer (the &ldquo;Teacher&rdquo; persona) refused to publish. Click one to read the draft and the reason for the <span class="pill-block">BLOCK</span>.</p>
         <ul id="blocked-list" class="concept-list" role="list"></ul>
       </div>
 

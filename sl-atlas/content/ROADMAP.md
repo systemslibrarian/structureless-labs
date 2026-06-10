@@ -15,9 +15,19 @@ the Teacher gate before it is published — see
   `sl-atlas/reviews/TEACHER-2026-06-09-attacks.md`.
 
 ## New foundations to add (next round)
-- **Side channels** — timing, power, EM, fault injection; Engineer-persona territory.
-- **Hybrid constructions** — classical+PQ (per CONSTITUTION Article 1).
-- **slff format internals** — once F-0002 is resolved and slff has a spec to explain.
+- ~~**Side channels**~~ — authored 2026-06-10; see `side-channels.json` and Teacher review
+  `sl-atlas/reviews/TEACHER-2026-06-10-side-channels.md` (PASS).
+- ~~**Hybrid constructions**~~ — authored 2026-06-10; see `hybrid-constructions.json` and
+  Teacher review `sl-atlas/reviews/TEACHER-2026-06-10-hybrid-constructions.md`
+  (PASS WITH NOTES — deployment-landscape sentences flagged as moving targets;
+  cadence-pacing question formally referred to the PI persona).
+- ~~**slff format internals**~~ — authored 2026-06-10 as a draft-with-open-finding; see
+  `slff-format.json` and Teacher review `sl-atlas/reviews/TEACHER-2026-06-10-slff-format.md`
+  (PASS WITH NOTES — F-0002 carries forward as a binding revision condition; concept must
+  be re-submitted when the criticality-marker mechanism is specified). The ROADMAP's
+  prior conservative gate ("once F-0002 is resolved") was substituted by the actual
+  concept honestly describing the draft state — the permanence-and-humility review accepted
+  the substitution.
 
 ## Held by Teacher gate (drafted; not published)
 

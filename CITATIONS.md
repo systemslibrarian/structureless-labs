@@ -87,6 +87,36 @@ see [root README §Lineage](README.md#lineage-and-related-prior-work) for the no
 boundary.
 <https://eprint.iacr.org/2024/1306>
 
+### kocher-1996
+Paul Kocher. *"Timing Attacks on Implementations of Diffie-Hellman, RSA, DSS, and Other
+Systems."* CRYPTO 1996. The founding paper of the side-channel field; demonstrated key
+recovery from execution-time variation in cryptographic implementations that were
+mathematically correct.
+<https://www.paulkocher.com/doc/TimingAttacks.pdf>
+
+### kocher-1999
+Paul Kocher, Joshua Jaffe, Benjamin Jun. *"Differential Power Analysis."* CRYPTO 1999.
+Demonstrated key recovery from power-consumption traces via statistical analysis across
+many runs; the canonical DPA reference and the origin of the masking-and-hiding defensive
+playbook.
+<https://www.paulkocher.com/doc/DifferentialPowerAnalysis.pdf>
+
+### giacon-2018
+Federico Giacon, Felix Heuer, Bertram Poettering. *"KEM Combiners."* PKC 2018; ePrint
+2018/024. The reference proof that a hybrid KEM combining two component KEMs is IND-CCA
+secure if and only if the combiner uses ciphertext binding in addition to the component
+shared secrets — the load-bearing rationale for the `KDF(K₁ ‖ K₂ ‖ c₁ ‖ c₂)` pattern in
+slff and in the TLS hybrid-KEM drafts.
+<https://eprint.iacr.org/2018/024>
+
+### bindel-2019
+Nina Bindel, Jacqueline Brendel, Marc Fischlin, Brian Goncalves, Douglas Stebila.
+*"Hybrid Key Encapsulation Mechanisms and Authenticated Key Exchange."* PQCrypto 2019;
+ePrint 2018/903. Extends KEM-combiner results to authenticated key exchange in the
+post-quantum transition setting, with explicit treatment of the harvest-now-decrypt-later
+threat model that motivates near-term hybrid deployment.
+<https://eprint.iacr.org/2018/903>
+
 ---
 
 ## How to add a new citation

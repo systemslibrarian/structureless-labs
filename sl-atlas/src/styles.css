@@ -185,6 +185,83 @@ kbd {
 [data-theme="light"] .icon-sun { display: inline; }
 [data-theme="light"] .icon-moon { display: none; }
 
+/* -------- intro disclosure (first-time visitors) -------- */
+.atlas-intro {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 28px;
+  box-sizing: border-box;
+}
+.atlas-intro > summary {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding: 14px 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-2);
+  cursor: pointer;
+  list-style: none;
+  font-size: .92rem;
+  transition: background-color .15s var(--ease), border-color .15s var(--ease);
+}
+.atlas-intro > summary::-webkit-details-marker { display: none; }
+.atlas-intro > summary::before {
+  content: "▸";
+  color: var(--muted);
+  font-size: .8rem;
+  transition: transform .15s var(--ease);
+  display: inline-block;
+}
+.atlas-intro[open] > summary::before { transform: rotate(90deg); }
+.atlas-intro > summary:hover {
+  background: var(--bg-3);
+  border-color: var(--border-strong);
+}
+.atlas-intro-title { font-weight: 700; color: var(--text); }
+.atlas-intro-tag {
+  color: var(--muted);
+  font-size: .82rem;
+  font-family: var(--font-mono);
+}
+.atlas-intro-body {
+  margin: 12px 0 0;
+  padding: 18px 22px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-2);
+  font-size: .95rem;
+  line-height: 1.55;
+  color: var(--text-soft);
+}
+.atlas-intro-body p { margin: 0 0 12px; }
+.atlas-intro-body p:last-child { margin-bottom: 0; }
+.atlas-intro-body strong { color: var(--text); }
+.atlas-intro-list {
+  margin: 0 0 14px;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.atlas-intro-list li {
+  padding: 10px 12px;
+  border-left: 2px solid var(--border-strong);
+  background: var(--bg-3);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+.atlas-intro-body .pill-block { vertical-align: 1px; }
+.atlas-intro-cta {
+  padding-top: 4px;
+  border-top: 1px dashed var(--border);
+  margin-top: 14px !important;
+  font-style: italic;
+  color: var(--muted);
+}
+
 /* -------- layout -------- */
 .layout {
   display: grid;
@@ -206,7 +283,6 @@ kbd {
   padding-right: 4px;
 }
 .sidebar-section + .sidebar-section { margin-top: 28px; }
-.sidebar-roadmap { opacity: .75; }
 
 .sidebar-heading {
   font-size: .72rem;
@@ -216,6 +292,13 @@ kbd {
   margin: 0 0 10px;
   font-weight: 700;
 }
+.sidebar-hint {
+  margin: -4px 0 10px;
+  font-size: .82rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+.sidebar-hint .pill-block { vertical-align: 1px; }
 
 .concept-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 2px; }
 .concept-link {
@@ -246,12 +329,6 @@ kbd {
   color: var(--muted);
 }
 .concept-link.is-active .grade { color: var(--accent); }
-.concept-stub {
-  padding: 8px 12px;
-  color: var(--muted);
-  font-size: .92rem;
-  font-style: italic;
-}
 
 .sidebar-blocked { opacity: 1; }
 .concept-blocked {
@@ -812,7 +889,13 @@ kbd {
   }
   .sidebar-section + .sidebar-section { margin-top: 0; }
   .sidebar-heading { display: none; }
-  .sidebar-roadmap, .sidebar-shortcuts { display: none; }
+  .sidebar-hint { display: none; }
+  .sidebar-shortcuts { display: none; }
+
+  /* tighten the intro disclosure on mobile */
+  .atlas-intro { padding: 0 16px; }
+  .atlas-intro > summary { padding: 12px 14px; font-size: .88rem; }
+  .atlas-intro-body { padding: 14px 16px; font-size: .92rem; }
 
   .concept-list {
     flex-direction: row;
