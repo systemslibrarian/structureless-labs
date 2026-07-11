@@ -22,6 +22,9 @@ jobs:
       - name: Validate every sl-atlas concept JSON against schema.json
         run: node scripts/validate-atlas.mjs
 
+      - name: Assert sl-atlas/src/concepts.js is generated from sl-atlas/content/
+        run: node scripts/gen-atlas-concepts.mjs --check
+
       - name: Check sl-atlas/src/concepts.js ↔ sl-atlas/content/ parity
         run: node scripts/check-atlas-parity.mjs
 
@@ -31,11 +34,20 @@ jobs:
       - name: Assert sl-atlas/src/citations.js matches CITATIONS.md
         run: node scripts/gen-atlas-citations.mjs --check
 
+      - name: Validate the glossary (terms unique, concept links resolve)
+        run: node scripts/check-glossary.mjs
+
       - name: Anti-fabrication regression test (STRUCTURAL DRAFT specs have no numbers)
         run: node scripts/check-no-fabrication.mjs
 
       - name: LWE-interactive math regression test (sl-atlas demo invariants)
         run: node scripts/check-lwe-math.mjs
+
+      - name: Lattice-visualizer math regression test (reduction + Babai invariants)
+        run: node scripts/check-lattice-math.mjs
+
+      - name: Attack-cost-model regression test (monotonicity + anchors)
+        run: node scripts/check-cost-model.mjs
 
       - name: Assert STATUS.md is up to date
         run: node scripts/gen-status.mjs --check

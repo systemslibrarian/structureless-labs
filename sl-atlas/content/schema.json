@@ -14,6 +14,11 @@
     },
     "title": { "type": "string", "minLength": 1 },
     "subtitle": { "type": "string" },
+    "path": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Position in the atlas learning path (1 = start here). Unique across published concepts; drives sidebar order, j/k navigation, and the next/previous footer on each concept page."
+    },
     "category": {
       "type": "string",
       "enum": ["foundations", "constructions", "attacks", "engineering"]
@@ -32,6 +37,19 @@
     "interactive": {
       "type": "string",
       "description": "Optional identifier for an interactive demo mounted by app.js (e.g., 'lwe-matrix')."
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["question", "answer"],
+        "additionalProperties": false,
+        "properties": {
+          "question": { "type": "string", "minLength": 1 },
+          "answer":   { "type": "string", "minLength": 1 }
+        }
+      },
+      "description": "Optional self-check questions rendered at the end of the concept (reveal-on-click answers). Formative assessment, not a quiz — answers must teach, not just grade. Reviewed by the Teacher gate like any prose."
     },
     "evidence_grade": {
       "type": "string",

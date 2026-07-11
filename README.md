@@ -99,9 +99,15 @@ publication if any one is weak. The shape of the workflow:
 
 The BLOCK path is not theoretical. The first one is on the record at
 [`sl-researchkit/decisions/D-0003.md`](sl-researchkit/decisions/D-0003.md) —
-the `decryption-failure` concept lacks a publishable Simple view and is
-visible in the atlas sidebar under "Held by Teacher gate." The gate has
-teeth, and you can see them.
+the `decryption-failure` concept lacked a publishable Simple view and was
+held in the sidebar's "Teacher gate" section for 32 days. It was resolved on
+2026-07-11 through exactly the path D-0003 specified: the Simple view was
+authored to the review's standard, a fresh review PASSed
+([`TEACHER-2026-07-11-decryption-failure.md`](sl-atlas/reviews/TEACHER-2026-07-11-decryption-failure.md)),
+and a superseding decision was recorded
+([`D-0004`](sl-researchkit/decisions/D-0004.md)) — the BLOCK record itself
+preserved unchanged. The gate has teeth, and now its full lifecycle
+(block → hold → resolve) is on the record.
 
 ---
 
@@ -120,9 +126,12 @@ inspected the method, not just read prose about it.
 3. **Read one filed finding** → [`sl-attacklab/findings/F-0001.md`](sl-attacklab/findings/F-0001.md).
    A break-it-first attempt against the lab's own `sl-kem`. Note the
    "RESOLVED-PARTIALLY" status — added after the spec it targets landed.
-4. **Read the first BLOCK** → [`sl-researchkit/decisions/D-0003.md`](sl-researchkit/decisions/D-0003.md).
-   The Teacher persona prevented publication of a concept lacking its Simple
-   view. The BLOCK is visible in the atlas sidebar; the gate has teeth.
+4. **Read the first BLOCK — and its resolution** →
+   [`sl-researchkit/decisions/D-0003.md`](sl-researchkit/decisions/D-0003.md),
+   then [`D-0004.md`](sl-researchkit/decisions/D-0004.md). The Teacher persona
+   prevented publication of a concept lacking its Simple view, held it for 32
+   days, and published it only after the named deficiency was fixed and
+   re-reviewed. The gate has teeth; the full lifecycle is on the record.
 5. **Run the harness** →
    ```bash
    node sl-bench/sl-kem/harness.mjs --spec SPEC-000 --iters 1000
@@ -201,7 +210,7 @@ Structureless Labs
 | Repo | Risk | Potential | Status |
 |------|------|-----------|--------|
 | [`sl-researchkit`](sl-researchkit/) | Low | Very high | Foundation — the method |
-| [`sl-atlas`](sl-atlas/) | Low | High | **Live demo** — four concepts authored, LWE interactive |
+| [`sl-atlas`](sl-atlas/) | Low | High | **Live demo** — 16-concept learning path, four interactives, search + glossary |
 | [`slff`](slff/) | Low | High | Spec drafted; integration target |
 | [`sl-bench`](sl-bench/) | Low | Medium | Tooling |
 | [`sl-vectors`](sl-vectors/) | Low | Medium | Reproducibility |

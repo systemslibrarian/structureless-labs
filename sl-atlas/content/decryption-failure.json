@@ -3,16 +3,31 @@
   "title": "Decryption Failure Probability",
   "subtitle": "When the decoder gets it wrong even though everyone followed the rules",
   "category": "foundations",
-  "status": "BLOCKED — Teacher review 2026-06-09 (missing Simple view)",
+  "path": 7,
   "views": {
-    "simple": null,
+    "simple": "Every lattice scheme lives with a strange possibility: the receiver can decode the *wrong message* even though both parties followed the protocol perfectly. No attacker, no bug, no network glitch — the scheme's own deliberate noise, which is what makes it secure in the first place, occasionally adds up past what the decoder can absorb. Picture the stamped tiles from the [Encoding](#/encoding) idea: the wind that nudges each tile is usually a gentle breeze, but once in a very great while every gust happens to push the same way, and a tile drifts into a neighbour's spot. The decoder, seeing the tile there, honestly reports the wrong answer.\n\nTwo things follow from this, and the second is the one people miss. First, \"rare\" is not good enough for correctness: the internet performs billions of encrypted handshakes a day, so a one-in-a-million failure rate would be a constant stream of broken connections. Second — and this is the sharp edge — **failures leak**. A failure is not random noise to an attacker; it is information. Researchers showed that an attacker who can feed a scheme carefully chosen inputs and simply watch *when* decryption fails can, failure by failure, reconstruct the secret key itself. The failure rate is not just a quality metric; it is part of the attack surface.\n\nSo designers do not aim for \"rare.\" They aim for *functionally impossible*: a failure probability so small — a number with dozens of zeros after the decimal point — that no attacker could ever collect enough failures to learn anything, because the first failure is never expected to happen in the lifetime of the system. And because you cannot test your way to a claim like that, the probability is *calculated*, from the noise distribution outward, and published with the scheme. The knobs that make it small are the ones this atlas has already introduced: gentler [noise](#/noise), wider [spacing](#/encoding), a bigger [clock](#/modular). Each costs something. That three-way bargain is the story of [Parameter choices](#/parameter-choices).",
     "developer": "The probability that a legitimate decoder recovers the wrong message even though every party followed the protocol. In LWE-style KEMs, decryption failure happens when the total noise `‖e_total‖` exceeds the decoding radius `τ` — that is, when the noise budget overflows. The end-to-end probability `Pr[‖e_total‖ > τ]` is doubly load-bearing: it controls correctness (users do not silently see wrong messages) **and** security (D'Anvers et al. 2019 showed that adaptive attackers can exploit non-trivial failure rates to recover the secret key). Modern KEMs target failure probabilities `≤ 2⁻¹⁶⁰` or tighter — astronomically small by design.",
     "researcher": "Let `χ_total = χ_LWE * χ_key * χ_round` be the convolution of all noise sources contributing to the decoder's input. For a rounding-style decoder the decryption-failure probability is `δ = Pr_{e ∼ χ_total}[‖e‖_∞ > q/4]` (the precise bound depends on the chosen decoder). `δ` enters the security argument twice: **(1)** the honest-failure constraint `δ ≤ 2^{-λ_corr}` for correctness level `λ_corr`; **(2)** the adaptive-failure constraint — D'Anvers, Vercauteren & Verbauwhede (2019) showed an adversary submitting chosen ciphertexts can learn which inputs cause failure and recover the secret in time roughly `1/δ`, requiring `δ ≤ 2^{-λ_sec}` with `λ_sec` matching the claimed security level (128, 192, 256). The two bounds rarely coincide; the tighter one wins. Decoder design ([Encoding](#/encoding)) and noise sizing ([Noise](#/noise)) are the two knobs that bring `δ` down; both have second-order effects on the lattice estimator and on the size of the public parameters."
   },
   "evidence_grade": "B",
   "evidence_note": "Failure-probability accounting is well-established; the D'Anvers et al. 2019 adaptive attack is widely cited. The specific bound for any given KEM is a careful argument, not a closed-form proof.",
-  "related": ["noise", "encoding", "lwe"],
+  "related": ["noise", "encoding", "lwe", "parameter-choices"],
+  "citations": ["dvv-2019"],
   "attack_links": [],
   "source_spec": null,
-  "_publication_status_note": "NOT published. This file exists as a draft in content/; it is intentionally NOT added to sl-atlas/src/concepts.js because the Teacher persona BLOCKed publication on 2026-06-09 — see sl-atlas/reviews/TEACHER-2026-06-09-decryption-failure.md and sl-researchkit/decisions/D-0003.md. The BLOCK is resolvable by authoring the Simple view to the standard the Teacher gate requires."
+  "checks": [
+    {
+      "question": "Both parties follow the protocol perfectly. How can decryption still fail?",
+      "answer": "The scheme's own deliberate noise is random, and on rare draws it accumulates past the decoder's absorption radius τ. No attacker or bug is required — the failure mode is built into honest execution. That is exactly why it must be *bounded mathematically* from the noise distribution outward, rather than hunted for in testing: you cannot observe an event designed to be rarer than the lifetime of the system."
+    },
+    {
+      "question": "Why must the failure probability be astronomically small rather than just \"rare\"?",
+      "answer": "Two independent reasons. Correctness at scale: billions of handshakes per day turn one-in-a-million into a constant stream of broken sessions. Security: D'Anvers et al. (2019) showed adaptive attackers can hunt for failing ciphertexts and reconstruct the key in time roughly 1/δ — so δ must sit below the *security* target, not merely below the annoyance threshold. The failure rate is part of the attack surface."
+    },
+    {
+      "question": "Which design knobs bring δ down, and what does each cost?",
+      "answer": "Shrink the noise distribution — costs security, because the LWE problem gets easier. Widen the decoding radius, via a larger q or a denser/better code — costs bandwidth, because keys and ciphertexts grow. δ, security, and size form the triangle that Parameter choices navigates; no knob is free."
+    }
+  ],
+  "_publication_status_note": "Unblocked 2026-07-11: the Simple view was authored to the standard set by sl-atlas/reviews/TEACHER-2026-06-09-decryption-failure.md and re-entered the gate — see sl-atlas/reviews/TEACHER-2026-07-11-decryption-failure.md (PASS) and sl-researchkit/decisions/D-0004.md, which supersedes the BLOCK recorded in D-0003. The original BLOCK record is preserved unchanged per never-edit-destructively."
 }

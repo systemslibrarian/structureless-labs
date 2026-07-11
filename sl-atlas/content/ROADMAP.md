@@ -31,13 +31,47 @@ the Teacher gate before it is published — see
 
 ## Held by Teacher gate (drafted; not published)
 
-- **Decryption Failure Probability** — `BLOCKED 2026-06-09`. Draft exists at
-  `decryption-failure.json` with Developer and Researcher views authored;
-  Simple view explicitly missing. Teacher review:
-  `sl-atlas/reviews/TEACHER-2026-06-09-decryption-failure.md`. Flight-recorder
-  decision: `sl-researchkit/decisions/D-0003.md`. Resolution path: author the
-  Simple view to the standard the Teacher gate requires, then re-submit. The
-  draft does NOT count toward [`PREDICTION-002`](../../sl-kem/predictions/PREDICTION-002.md).
+- ~~**Decryption Failure Probability**~~ — `BLOCKED 2026-06-09`, **resolved
+  2026-07-11**. The Simple view was authored to the standard the 2026-06-09
+  review required and the re-submission PASSed:
+  `sl-atlas/reviews/TEACHER-2026-07-11-decryption-failure.md`. Superseding
+  decision: [`sl-researchkit/decisions/D-0004.md`](../../sl-researchkit/decisions/D-0004.md)
+  (D-0003's BLOCK record is preserved unchanged). Published at learning-path
+  position 7. The gate is currently empty — its first full lifecycle
+  (block → hold → resolve) is on the record.
+
+## Authored 2026-07-11 (the learner-journey round)
+
+- ~~**The quantum threat model**~~ — authored 2026-07-11 as the atlas's new
+  front door (learning-path position 1); see `threat-model.json` and
+  `sl-atlas/reviews/TEACHER-2026-07-11-threat-model.md` (PASS).
+- ~~**Ring-LWE and Module-LWE**~~ — authored 2026-07-11 as the bridge from
+  unstructured LWE to deployed schemes (position 11); see
+  `ring-module-lwe.json` and
+  `sl-atlas/reviews/TEACHER-2026-07-11-ring-module-lwe.md` (PASS).
+- ~~**ML-KEM (Kyber)**~~ — authored 2026-07-11 as the path's capstone
+  construction study (position 12); see `ml-kem.json` and
+  `sl-atlas/reviews/TEACHER-2026-07-11-ml-kem.md` (PASS; first grade-A
+  construction page — the note explains why).
+
+Also in this round (site features, not concepts — see
+[`sl-atlas/decisions/D-0003.md`](../decisions/D-0003.md)): the numbered
+learning path (`path` field in every concept JSON), client-side search, the
+glossary, per-concept self-check questions (`checks` field), predict-then-
+verify prompts in the LWE and Encoding interactives, and two new
+interactives — the 2D lattice visualizer (Lattices) and the attack-cost
+explorer (Parameter choices) — each with CI regression tests.
+
+## Still ahead (candidate next concepts)
+
+- **Signatures (ML-DSA / SLH-DSA)** — the other half of the FIPS 2024
+  standards; the threat-model concept already routes readers toward the
+  KEM-first migration logic that would frame it.
+- **NTRU and its lineage** — the older structured family; belongs after
+  ring-module-lwe once the structure discussion is load-tested.
+- **The lattice estimator, hands-on** — a deeper companion to the
+  attack-cost explorer if demand appears; would need careful scoping
+  against the "numbers without methodology" rule.
 
 ## Constructions to document (with explicit attribution)
 

@@ -3,16 +3,34 @@
   "title": "Encoding",
   "subtitle": "How a real message becomes a lattice point — and how the decoder finds it again",
   "category": "foundations",
+  "path": 6,
   "views": {
-    "simple": "Encoding is how a real message — a number, a key, a word — becomes a lattice point that the rest of the math can work with, and how the decoder gets the message back when the point arrives slightly nudged. Imagine the message as a stamped tile dropped into a wide grid. As long as no tile is dropped within bumping distance of another, you can always tell which tile is which, even if the wind has nudged every one of them an inch or two. Pick the spacing badly and a small breeze loses the message; pick it well and a small breeze is harmless. Most of the engineering in a KEM is choosing that spacing.",
+    "simple": "Encoding is how a real message — a number, a key, a word — becomes a *lattice point* that the rest of the math can work with, and how the decoder gets the message back when the point arrives slightly nudged. Imagine the message as a stamped tile dropped into a wide grid. As long as no tile is dropped within bumping distance of another, you can always tell which tile is which, even if the wind has nudged every one of them an inch or two. Pick the spacing badly and a small breeze loses the message; pick it well and a small breeze is harmless. Most of the engineering in a KEM is choosing that spacing.",
     "developer": "An encoding is a pair `(E, D)` where `E : M → L` embeds the message space `M` into the lattice `L`, and `D : L → M` recovers `m` when the received point is the lattice's nearest neighbour of `E(m) + e`. The end-to-end goal: for every `m ∈ M` and every error `e` from the noise budget, `D(E(m) + e) = m`. Common patterns: bit-by-bit modular encoding (early LWE schemes), Reed-Muller / Reed-Solomon codes layered on top of LWE noise, and lattice codes such as Barnes-Wall `BW_{2^k}` in `2^k` dimensions. Denser codes carry more bits per dimension but shrink the decoding radius — which is why encoding choices and noise parameters are tuned together, never separately.",
-    "researcher": "Let `L ⊂ R^n` be a lattice with minimum distance `λ₁(L)`, and let `M` be a finite message space. An encoder–decoder pair `(E, D)` satisfies the recovery property if for all `m ∈ M` and all `e` with `‖e‖ ≤ τ`, `D(E(m) + e) = m`, where `τ` is the decoding radius. The KEM's decryption-failure probability is `Pr_{e∼χ_total}[‖e_total‖ > τ]`, where `χ_total` is the convolution of LWE noise, key noise, and any rounding error. The design knob `(n, τ, |M|)` is what differentiates schemes: denser codes raise `|M|/n` but reduce `τ`, forcing tighter `χ` and altering the lattice-estimator output. Reed-Muller and Barnes-Wall codes (the Barnes-Wall family `BW_{2^k}`) are the dominant choices when the goal is to maximize `τ` per dimension; the `BW₃₂` instance used in S-Cloud+ (Wang et al., 2024) is one concrete realization of that strategy. Encoding choices are not orthogonal to the security argument — they enter the decryption-failure bound, which itself is attackable (D'Anvers et al., 2019)."
+    "researcher": "Let `L ⊂ R^n` be a lattice with minimum distance `λ₁(L)`, and let `M` be a finite message space. An encoder–decoder pair `(E, D)` satisfies the *recovery property* if for all `m ∈ M` and all `e` with `‖e‖ ≤ τ`, `D(E(m) + e) = m`, where `τ` is the *decoding radius*. The KEM's decryption-failure probability is `Pr_{e∼χ_total}[‖e_total‖ > τ]`, where `χ_total` is the convolution of LWE noise, key noise, and any rounding error. The design knob `(n, τ, |M|)` is what differentiates schemes: denser codes raise `|M|/n` but reduce `τ`, forcing tighter `χ` and altering the lattice-estimator output. Reed-Muller and Barnes-Wall codes (the Barnes-Wall family `BW_{2^k}`) are the dominant choices when the goal is to maximize `τ` per dimension; the `BW₃₂` instance used in S-Cloud+ (Wang et al., 2024) is one concrete realization of that strategy. Encoding choices are not orthogonal to the security argument — they enter the decryption-failure bound, which itself is attackable (D'Anvers et al., 2019)."
   },
   "interactive": "encoding-1d",
   "evidence_grade": "B",
   "evidence_note": "Well-established design discipline: the encoder-decoder pair, the recovery property, and the failure-probability accounting are standard textbook material. Specific code choices (Reed-Muller vs. Barnes-Wall vs. bitwise) are an active engineering debate — graded B because the trade-off space is mature but not closed.",
-  "related": ["lwe", "noise", "lattices"],
-  "citations": ["scloud-plus-2024", "dvv-2019"],
+  "related": [
+    "lwe",
+    "noise",
+    "lattices"
+  ],
+  "citations": [
+    "scloud-plus-2024",
+    "dvv-2019"
+  ],
   "attack_links": [],
-  "source_spec": null
+  "source_spec": null,
+  "checks": [
+    {
+      "question": "In the demo, set q = 16 and η = 6. Why do decryption failures appear, and which two levers stop them?",
+      "answer": "The decoding radius is τ = q/4 = 4, but CBD(6) can draw noise as large as |e| = 6 — there is probability mass outside the safe band, so some draws decode to the wrong bit. Shrink the noise (lower η) or widen the spacing (raise q) and the mass disappears. That pair — spacing versus noise — is the entire encoding trade in miniature."
+    },
+    {
+      "question": "Why do real KEMs use denser codes (Reed-Muller, Barnes-Wall) instead of the demo's one-bit-per-coordinate encoding?",
+      "answer": "Bandwidth. Denser codes carry more message bits per lattice dimension, so ciphertexts shrink. The cost is a smaller decoding radius per bit, which forces tighter noise — which is why encoding choices and noise parameters are tuned jointly, never separately."
+    }
+  ]
 }

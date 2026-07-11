@@ -26,26 +26,37 @@ Teacher persona BLOCKs publication.
 
 ## What's running today
 
-The demo in [`src/`](src/) ships with **six** foundational concepts authored end-to-end
-and **one** held by the Teacher gate. Counts in this README are intentionally minimal
-because the canonical inventory is generated from the tree — see
-[`STATUS.md`](../STATUS.md) for the auditable current totals.
+The site in [`src/`](src/) ships a **16-concept numbered learning path** — from
+[the quantum threat model](https://systemslibrarian.github.io/structureless-labs/#/threat-model)
+*(step 1: why any of this matters)* through the foundations to ML-KEM, S-Cloud+, hybrids,
+side channels, and the lab's own draft format. Counts in this README are intentionally minimal because the canonical
+inventory is generated from the tree — see [`STATUS.md`](../STATUS.md) for the auditable
+current totals. The Teacher gate's first BLOCK (Decryption Failure Probability,
+2026-06-09) was resolved 2026-07-11 through the path D-0003 specified; both the BLOCK
+and the resolution are on the record.
 
-| Concept | Grade | Status | Notes |
-|---|---|---|---|
-| Learning With Errors | B | Published | Live matrix `b = A·s + e (mod q)` with a noise toggle |
-| Lattices | A | Published | — |
-| Noise | B | Published | — |
-| Modular Arithmetic | A | Published | — |
-| Encoding | B | Published | Cross-links into the LWE noise discussion |
-| Reconciliation | B | Published | Helper-bit vs. encryption-style |
-| Decryption Failure Probability | B | **BLOCKED 2026-06-09** | Missing Simple view; see [Teacher review](reviews/TEACHER-2026-06-09-decryption-failure.md) and [D-0003](../sl-researchkit/decisions/D-0003.md) |
+**Four interactives, each with a CI-tested math core and an explicit
+"what this does *not* show" note:**
+
+| Interactive | Concept | The runnable claim |
+|---|---|---|
+| LWE matrix | Learning With Errors | Noise off → Gaussian elimination recovers `s`; noise on → same elimination, worthless answer |
+| 2D lattice | Lattices | Same lattice, different basis: Babai round-off succeeds reduced, misses skewed |
+| Encoding ring | Encoding | Codeword + CBD noise + rounding decoder; exact failure probability δ |
+| Attack cost | Parameter choices | (n, q, σ) → minimal BKZ β → core-SVP bits, the simplified primal estimate live |
 
 Plus:
 
+- **Learning path + search + glossary** — numbered sidebar order (the `path` field),
+  client-side full-text search (`/`), and a ~50-term glossary (`g`) with every term
+  linked to the concept that teaches it.
+- **Predict-then-verify** — the LWE and Encoding demos ask for your call before showing
+  the answer; every concept ends with *Check your understanding* questions
+  (the `checks` field, reviewed by the Teacher gate like any prose).
 - **Compare mode** — all three views side-by-side.
-- **Keyboard nav** — `1` / `2` / `3` switch views, `c` toggles compare, `j` / `k` move between concepts, `t` toggles theme.
-- **Hash routing** — every state is a shareable URL: `#/lwe?view=developer`, `#/lwe?compare=1`.
+- **Keyboard nav** — `1` / `2` / `3` switch views, `c` compare, `j` / `k` move along the
+  path, `/` search, `g` glossary, `t` theme.
+- **Hash routing** — every state is a shareable URL: `#/lwe?view=developer`, `#/glossary`.
 - **Theme toggle** — light / dark, persisted to `localStorage`, respects `prefers-color-scheme`.
 - **No build step** — pure HTML / CSS / JS, opens directly via `file://` or any static server.
 
@@ -71,12 +82,20 @@ content is embedded in `concepts.js`.
 
 ## Authoring a new concept
 
-1. Add an entry to [`src/concepts.js`](src/concepts.js) following the schema (see
-   [`content/CONTENT-SCHEMA.md`](content/CONTENT-SCHEMA.md)).
-2. Mirror it as `content/<id>.json` so the Teacher persona and tooling can lint it.
+Content is authored **once**, in `content/<id>.json` — `src/concepts.js` is a
+**generated file** (since 2026-07-11; see [`decisions/D-0003.md`](decisions/D-0003.md))
+and must never be edited by hand.
+
+1. Write `content/<id>.json` following the schema (see
+   [`content/CONTENT-SCHEMA.md`](content/CONTENT-SCHEMA.md)). Give it a `path`
+   position (its place in the learning path) and, ideally, 2–3 `checks` questions.
+2. Run `node scripts/gen-atlas-concepts.mjs` to regenerate `src/concepts.js`.
+   CI fails on drift, so a forgotten regeneration cannot merge.
 3. If the concept has a source spec elsewhere in the org (e.g. `sl-kem/spec/EXPLAINER-*.md`),
    point `source_spec` at it. The Atlas tracks the spec — never the other way around.
-4. Open a PR; the Teacher persona reviews. Missing any of the three views → BLOCK.
+4. Open a PR; the Teacher persona reviews. Missing any of the three views → BLOCK
+   (set the `status` field to `BLOCKED — …` and the concept stays out of the
+   generated file; add the draft's stub to `src/blocked.js`).
 
 ---
 
@@ -90,11 +109,10 @@ artifact). The included `.nojekyll` disables Jekyll preprocessing.
 
 ## What's still ahead
 
-The roadmap in the sidebar names the next concepts: **Parameter choices**, **Attacks**,
-and **S-Cloud+** (planned; *Wang et al.*, ePrint [2024/1306](https://eprint.iacr.org/2024/1306) —
-adapt with attribution; see [`content/ROADMAP.md`](content/ROADMAP.md)). Each new entry
-is a small structured document, never a bespoke page — the three-view contract holds
-across the whole atlas.
+[`content/ROADMAP.md`](content/ROADMAP.md) tracks candidates for the next round —
+signatures (ML-DSA / SLH-DSA), the NTRU lineage, and a deeper lattice-estimator
+companion. Each new entry is a small structured document, never a bespoke page — the
+three-view contract holds across the whole atlas.
 
 Drift control: the README's count and table are **not** the source of truth. CI validates
 every concept in `src/concepts.js` against [`content/schema.json`](content/schema.json),

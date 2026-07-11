@@ -3,15 +3,36 @@
   "title": "Attacks",
   "subtitle": "Three honest ways to break a lattice KEM (plus side-channels)",
   "category": "foundations",
+  "path": 10,
   "views": {
-    "simple": "There are three honest ways to break a lattice KEM. First, find the secret directly by guessing or computing — the 'find the needle in a high-dimensional haystack' attack, made hard by big dimensions. Second, find a close secret that the math thinks is the right one — the 'closest vector' problem, and how almost all real attacks work in practice. Third, get the legitimate decoder to leak information by feeding it strange inputs and watching when it fails — the 'decryption-failure' attack, and the reason every modern scheme makes failure astronomically rare. None of these is a clever twist; they are systematic, named, and well-studied. A fourth family — side channels — lives in the implementation, not the math.",
-    "developer": "Three formal attack families against LWE-based KEMs, plus implementation hazards. **(1) Lattice attacks.** Embed LWE into a lattice; run BKZ block reduction with sieving subroutines. The 'primal' variant solves the unique-SVP instance (Kannan embedding); the 'dual' solves a related decisional problem. Cost modeled as core-SVP against the block size `β`. **(2) Combinatorial attacks.** BKW (Blum-Kalai-Wasserman) and variants — trade space for time; dominant only in narrow parameter regimes. **(3) Adaptive failure attacks** — D'Anvers, Vercauteren, Verbauwhede (2019) showed an adversary submitting chosen ciphertexts can learn which inputs cause decryption failure and recover the secret in time `~1/δ`. (1) sets parameter dimensions; (3) sets noise distributions; (2) is a sanity check. **Side-channels** (timing, power, EM, fault injection) target the implementation and require the Engineer persona's review, not the spec author's.",
-    "researcher": "The primal attack reduces LWE to unique-SVP via the Kannan embedding; standard cost is core-SVP with block size `β` chosen to satisfy the GSA root-Hermite condition. The dual attack reduces to a Short Integer Solution (SIS) instance and tests distinguishing advantage with `m^* ≥ m` samples; for some regimes, the dual is asymptotically tighter. Both run BKZ (Chen-Nguyen 2011 and successors) with sieving subroutines (BDGL 2016 classically; Grover-style for the quantum cost model). The lattice estimator (Albrecht-Player-Scott 2015) produces concrete cost figures that move with each cryptanalytic update. Decryption-failure attacks (D'Anvers et al. 2019, followed by Guo-Johansson 2021, Bindel-Schanck 2020) act as the floor under noise-distribution choice — modern schemes target `δ ≤ 2^{-160}` or tighter precisely to evade this family. Side-channels are out of scope for the formal security argument but require constant-time considerations (and where secrets flow through tabular sampling, replacement of Gaussian-discrete sampling with CBD sampling)."
+    "simple": "There are three honest ways to break a lattice KEM. First, find the secret *directly* by guessing or computing — the 'find the needle in a high-dimensional haystack' attack, made hard by big dimensions. Second, find a *close* secret that the math thinks is the right one — the 'closest vector' problem, and how almost all real attacks work in practice. Third, get the legitimate decoder to leak information by feeding it strange inputs and watching when it fails — the 'decryption-failure' attack, and the reason every modern scheme makes failure astronomically rare. None of these is a clever twist; they are systematic, named, and well-studied. A fourth family — *side channels* — lives in the implementation, not the math.",
+    "developer": "Three formal attack families against LWE-based KEMs, plus implementation hazards. **(1) Lattice attacks.** Embed LWE into a lattice; run BKZ block reduction with sieving subroutines. The 'primal' variant solves the unique-SVP instance (Kannan embedding); the 'dual' solves a related decisional problem. Cost modeled as `core-SVP` against the block size `β`. **(2) Combinatorial attacks.** BKW (Blum-Kalai-Wasserman) and variants — trade space for time; dominant only in narrow parameter regimes. **(3) Adaptive failure attacks** — D'Anvers, Vercauteren, Verbauwhede (2019) showed an adversary submitting chosen ciphertexts can learn which inputs cause decryption failure and recover the secret in time `~1/δ`. (1) sets parameter dimensions; (3) sets noise distributions; (2) is a sanity check. **Side-channels** (timing, power, EM, fault injection) target the *implementation* and require the Engineer persona's review, not the spec author's.",
+    "researcher": "The **primal attack** reduces LWE to unique-SVP via the Kannan embedding; standard cost is `core-SVP` with block size `β` chosen to satisfy the GSA root-Hermite condition. The **dual attack** reduces to a Short Integer Solution (SIS) instance and tests distinguishing advantage with `m^* ≥ m` samples; for some regimes, the dual is asymptotically tighter. Both run BKZ (Chen-Nguyen 2011 and successors) with sieving subroutines (BDGL 2016 classically; Grover-style for the quantum cost model). The lattice estimator (Albrecht-Player-Scott 2015) produces concrete cost figures that move with each cryptanalytic update. **Decryption-failure attacks** (D'Anvers et al. 2019, followed by Guo-Johansson 2021, Bindel-Schanck 2020) act as the floor under noise-distribution choice — modern schemes target `δ ≤ 2^{-160}` or tighter precisely to evade this family. **Side-channels** are out of scope for the formal security argument but require constant-time considerations (and where secrets flow through tabular sampling, replacement of Gaussian-discrete sampling with CBD sampling). The lab's `sl-attacklab` is where structural and (eventually) cryptanalytic findings are filed; [F-0001](https://github.com/systemslibrarian/structureless-labs/blob/main/sl-attacklab/findings/F-0001.md) / [F-0003](https://github.com/systemslibrarian/structureless-labs/blob/main/sl-attacklab/findings/F-0003.md) are examples of the structural variety, filed before any parameter set exists to cryptanalyze."
   },
   "evidence_grade": "B",
   "evidence_note": "Attack families and their canonical references are well-established; concrete attack costs are an active research area and graded B because they shift with new results.",
-  "related": ["lwe", "noise", "encoding", "reconciliation", "lattices"],
-  "citations": ["regev-2005", "dvv-2019", "albrecht-2015"],
+  "related": [
+    "lwe",
+    "noise",
+    "encoding",
+    "reconciliation",
+    "lattices"
+  ],
+  "citations": [
+    "regev-2005",
+    "dvv-2019",
+    "albrecht-2015"
+  ],
   "attack_links": [],
-  "source_spec": null
+  "source_spec": null,
+  "checks": [
+    {
+      "question": "Which attack family constrains which design parameter?",
+      "answer": "Lattice-reduction attacks (primal/dual BKZ) set the dimension and the noise-to-modulus ratio; decryption-failure attacks set the noise distribution and the δ target; BKW-style combinatorial attacks are the sanity check that sample exposure and modulus aren't degenerate. Side channels constrain the *implementation*, not the math — which is why they get their own concept and their own reviewer."
+    },
+    {
+      "question": "Why is there no \"quantum attack that breaks lattices\" section on this page?",
+      "answer": "Because none is known. Shor's algorithm does not apply to LWE, and known quantum speedups for lattice attacks (Grover-flavored sieving) shave the constant in the exponent — core-SVP 2^0.292β classical versus 2^0.265β quantum — rather than collapsing the exponential. That gap, broken-by-Shor versus merely-cheaper, is the entire reason lattices are a post-quantum candidate. See The quantum threat model."
+    }
+  ]
 }

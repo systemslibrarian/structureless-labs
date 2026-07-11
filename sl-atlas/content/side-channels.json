@@ -3,6 +3,7 @@
   "title": "Side channels",
   "subtitle": "When the math is fine and the implementation leaks anyway",
   "category": "engineering",
+  "path": 15,
   "views": {
     "simple": "A cipher can be perfectly secure on paper and still leak its secret in the real world. The leak does not come from the math — it comes from the *physical act* of running the math. A chip that takes a few microseconds longer when its secret happens to contain a 1 than when it contains a 0 is whispering the secret to anyone with a stopwatch. Watching a power meter, listening for electromagnetic emissions, or even nudging the chip with a precisely-timed voltage glitch — all of these have, in published research, extracted cryptographic keys from devices the math believed were safe. The fix is not better math; it is implementation discipline: every operation that touches a secret must take the same time, draw the same power, and follow the same code path regardless of what the secret is. The whole family of techniques is called *constant-time programming*, and getting it right is hard enough that the field still finds new mistakes in old code every year.",
     "developer": "Side-channel attacks recover secret material from a correctly-implemented cryptographic primitive by observing physical or microarchitectural signals the abstract algorithm does not model. Four canonical channels. **(1) Timing.** Execution-time differences that depend on secret data — branching on a secret, indexing a table at a secret address, calling variable-time arithmetic with secret-dependent operand sizes. The seminal demonstration is Kocher (1996) against RSA, DH, and DSS. Defense: constant-time implementations; no branches and no memory accesses with secret-dependent addresses. **(2) Power analysis.** Simple Power Analysis (SPA) reads the trace directly; Differential Power Analysis (DPA, Kocher-Jaffe-Jun 1999) recovers keys statistically across many traces. Defense: *masking* (split secrets into shares so no single intermediate carries the whole secret) and *hiding* (noise injection, dual-rail logic). **(3) Electromagnetic emanations.** Same underlying physics as power analysis but read by a different sensor; harder to defend because EM emissions can sometimes be measured at a distance from the device. **(4) Fault injection.** Voltage or clock glitches, lasers, deliberate undervolting — corrupting the computation to produce a single *faulty* output that, combined with a correct one, leaks the key (the canonical Boneh-DeMillo-Lipton 1997 attack against RSA-CRT). **For lattice KEMs specifically**, the common pitfalls are: secret-dependent rejection sampling, Gaussian-discrete sampling via secret-indexed lookup tables (which is why CBD sampling is preferred), non-constant-time modular reduction, and decapsulation code that branches on the re-encryption check inside the Fujisaki-Okamoto transform. ML-KEM, FrodoKEM, and the lab's candidate `sl-kem` all owe their constant-time guarantees to specific implementation choices, not to the abstract spec. **Side-channels are out of scope for the formal security argument** — they are the [Engineer persona](../../sl-researchkit/personas/ENGINEER.md)'s territory and the reason Article 5 of the [CONSTITUTION](../../CONSTITUTION.md) says *every concept ships with three views* rather than *every concept ships with one proof*.",
@@ -10,8 +11,26 @@
   },
   "evidence_grade": "B",
   "evidence_note": "The four canonical channels and their foundational references (Kocher 1996 timing, Kocher-Jaffe-Jun 1999 DPA, Boneh-DeMillo-Lipton 1997 faults) are well-established. The lattice-KEM-specific attack results cited are real published research; specific paper citations beyond Kocher are named in prose without being individually registered (carried forward as a not-blocking note in the manner of the Attacks review).",
-  "related": ["attacks", "noise", "encoding"],
-  "citations": ["kocher-1996", "kocher-1999"],
+  "related": [
+    "attacks",
+    "noise",
+    "encoding"
+  ],
+  "citations": [
+    "kocher-1996",
+    "kocher-1999",
+    "pessl-2017"
+  ],
   "attack_links": [],
-  "source_spec": null
+  "source_spec": null,
+  "checks": [
+    {
+      "question": "The math is provably secure. How can the key still leak?",
+      "answer": "The proof bounds what an adversary learns from the algorithm's inputs and outputs; it says nothing about the time taken, power drawn, electromagnetic field emitted, or faults induced *while computing*. Those physical signals are extra outputs the security model never covered — and published attacks have recovered keys from every one of them."
+    },
+    {
+      "question": "Why do lattice KEMs prefer CBD sampling over discrete Gaussians in practice?",
+      "answer": "Gaussian samplers historically used secret-indexed lookup tables or rejection loops, both of which leak through timing and cache behavior — the BLISS attack (Pessl, Groot Bruinderink & Yarom 2017) is the canonical precedent. Centered-binomial sampling is a fixed handful of bit operations, identical for every secret: constant-time by construction rather than by audit."
+    }
+  ]
 }

@@ -3,6 +3,7 @@
   "title": "Noise",
   "subtitle": "Small, deliberate imperfection — the cryptographic raw material",
   "category": "foundations",
+  "path": 5,
   "views": {
     "simple": "Noise here doesn't mean sound. It means a tiny random nudge added on purpose. In daily life, noise is the enemy — it makes signals harder to read. In lattice cryptography, noise is the *friend*: it is what makes the math hard for an attacker. The trick is to add just enough noise to lose the attacker, but not so much that the legitimate decoder cannot still recover the message. This careful balance — *enough but not too much* — is what most of the engineering in a scheme like Kyber is really about.",
     "developer": "Noise is sampled from a bounded distribution `χ` (usually centered binomial or discrete Gaussian) and added to the equation `b = A·s + e`. The standard deviation `σ` is the central knob. Bigger `σ` → harder for an attacker, but also more *decryption failures*: legitimate decoders use an error-correcting structure to absorb the noise, and if `e` ever exceeds the absorption budget, decryption silently produces the wrong message. Modern schemes (Kyber, Saber, FrodoKEM) tune `(n, q, σ)` so that the decryption-failure probability is astronomically small (e.g. `≤ 2⁻¹⁶⁰`) *and* the LWE problem remains hard.",
@@ -10,8 +11,25 @@
   },
   "evidence_grade": "B",
   "evidence_note": "Mature engineering; concrete failure-probability bounds are well-understood. The 'enough noise / not too much' trade-off is actively re-evaluated as new attacks appear.",
-  "related": ["lwe", "lattices"],
-  "citations": ["kyber-2018", "frodokem-2017", "dvv-2019"],
+  "related": [
+    "lwe",
+    "lattices"
+  ],
+  "citations": [
+    "kyber-2018",
+    "frodokem-2017",
+    "dvv-2019"
+  ],
   "attack_links": [],
-  "source_spec": null
+  "source_spec": null,
+  "checks": [
+    {
+      "question": "Noise is what makes LWE hard — so why not add much more of it?",
+      "answer": "Because the legitimate decoder has to absorb the noise too. Widen the distribution and the decryption-failure probability climbs — and failures are an attack surface, not just a nuisance (adaptive attackers exploit them; see Decryption Failure Probability). Parameter selection is the discipline of walking that line."
+    },
+    {
+      "question": "Why do modern schemes sample noise from a centered binomial rather than a mathematically nicer Gaussian?",
+      "answer": "Constant-time implementability. CBD sampling is a handful of random bits and additions, identical work for every outcome. Discrete-Gaussian samplers historically used secret-indexed tables or rejection loops, which leak through timing and cache side channels — see Side channels for the published precedents."
+    }
+  ]
 }

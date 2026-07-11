@@ -3,15 +3,35 @@
   "title": "Reconciliation",
   "subtitle": "Two parties holding 'almost the same number' agreeing on exactly the same key",
   "category": "foundations",
+  "path": 8,
   "views": {
-    "simple": "When Alice and Bob run an LWE-style key exchange, they don't end up with the same key — they end up with two keys that are close but not identical. Reconciliation is the small extra trick that lets them agree on the exact same key without either of them revealing much about their secret. The classic move: one party sends a few rounding hints — just enough to nudge the other party's near-match into the right bucket. With the hints, they end up identical; without them, they would be one bit apart and every encryption built on top would silently fail.",
-    "developer": "Reconciliation takes two near-equal lattice points `v_A ≈ v_B` (one held by each party after a KEM round) and outputs a shared, exact key. Two dominant patterns: **(1) helper-bit reconciliation** (NewHope, BLISS): Alice publishes a short hint `h` derived from `v_A`, and Bob applies `Rec(v_B, h) = k` such that `Rec(v_A, h) = k` too. **(2) encryption-style** (Kyber/ML-KEM, Saber): the shared key is embedded directly via a message encoding, and reconciliation collapses into the encoding's recovery property — the hint disappears into the encoding layer. Modern KEMs increasingly favor (2) because helper bits leak some structure of the noise; (1) survives where every byte of bandwidth matters.",
-    "researcher": "Given two lattice points `v_A, v_B ∈ Z_q^n` with `v_A − v_B = e` for noise `e` bounded by `‖e‖ ≤ τ`, the reconciliation problem is to produce a public hint `h` and a function `Rec` such that `Rec(v_A, h) = Rec(v_B, h) = k` for a shared `k ∈ {0,1}^λ`, where the conditional distribution of `k` given `h` carries negligible additional information about Alice's secret beyond what is already exposed by `v_A`. The NewHope construction uses Voronoi-cell-style hint bits (Ding 2012; Peikert 2014; Alkim–Ducas–Pöppelmann–Schwabe 2016) tuned so that `h` is one bit per coefficient at the cost of slightly tighter `χ`. The encryption-style approach (Kyber, ML-KEM) instead embeds a uniform `k` directly via the encoder and lets the encoding's recovery property carry the agreement. The two approaches differ in how leakage to a passive attacker is quantified: helper bits add a term to the lattice estimator; encryption-style approaches roll the leakage into the standard decryption-failure analysis. Hardware constraints can flip the choice — embedded targets sometimes prefer (1) for its smaller transcript at fixed security."
+    "simple": "When Alice and Bob run an LWE-style key exchange, they don't end up with the same key — they end up with two keys that are *close but not identical*. Reconciliation is the small extra trick that lets them agree on the exact same key without either of them revealing much about their secret. The classic move: one party sends a few rounding hints — just enough to nudge the other party's near-match into the right bucket. With the hints, they end up identical; without them, they would be one bit apart and every encryption built on top would silently fail.",
+    "developer": "Reconciliation takes two near-equal lattice points `v_A ≈ v_B` (one held by each party after a KEM round) and outputs a shared, exact key. Two dominant patterns: **(1) helper-bit reconciliation** (NewHope, BLISS): Alice publishes a short hint `h` derived from `v_A`, and Bob applies `Rec(v_B, h) = k` such that `Rec(v_A, h) = k` too. **(2) encryption-style** (Kyber/ML-KEM, Saber): the shared 'key' is embedded directly via a message encoding, and reconciliation collapses into the encoding's recovery property — the hint disappears into the [encoding](#/encoding) layer. Modern KEMs increasingly favor (2) because helper bits leak some structure of the noise; (1) survives where every byte of bandwidth matters.",
+    "researcher": "Given two lattice points `v_A, v_B ∈ Z_q^n` with `v_A − v_B = e` for noise `e` bounded by `‖e‖ ≤ τ`, the reconciliation problem is to produce a public hint `h` and a function `Rec` such that `Rec(v_A, h) = Rec(v_B, h) = k` for a shared `k ∈ {0,1}^λ`, where the conditional distribution of `k` given `h` carries negligible additional information about Alice's secret beyond what is already exposed by `v_A`. The NewHope construction uses Voronoi-cell-style hint bits (Ding 2012; Peikert 2014; Alkim–Ducas–Pöppelmann–Schwabe 2016) tuned so that `h` is one bit per coefficient at the cost of slightly tighter `χ`. The encryption-style approach (Kyber, ML-KEM) instead embeds a uniform `k` directly via the encoder and lets the encoding's recovery property carry the agreement — the hint is replaced by the structure of the code (cf. [Encoding](#/encoding)). The two approaches differ in how leakage to a passive attacker is quantified: helper bits add a term to the lattice estimator; encryption-style approaches roll the leakage into the standard decryption-failure analysis. Hardware constraints can flip the choice — embedded targets sometimes prefer (1) for its smaller transcript at fixed security."
   },
   "evidence_grade": "B",
   "evidence_note": "Mature design space; both patterns are deployed in published / standardized KEMs. The trade-off (helper bits vs. encoding-embedded) is well-understood but actively re-litigated as standards evolve.",
-  "related": ["lwe", "encoding", "noise", "lattices"],
-  "citations": ["ding-2012", "peikert-2014", "newhope-2016"],
+  "related": [
+    "lwe",
+    "encoding",
+    "noise",
+    "lattices"
+  ],
+  "citations": [
+    "ding-2012",
+    "peikert-2014",
+    "newhope-2016"
+  ],
   "attack_links": [],
-  "source_spec": null
+  "source_spec": null,
+  "checks": [
+    {
+      "question": "After an LWE key exchange, Alice and Bob hold values that are close but not equal. Why can't they both just round to the nearest bucket?",
+      "answer": "Plain rounding fails exactly at bucket boundaries: when the true value sits near an edge, Alice rounds one way and Bob the other, their keys differ by one bit, and neither can tell it happened. Reconciliation handles the boundary cases — a small public hint tells the other party *which side* to round toward without revealing the value itself."
+    },
+    {
+      "question": "What distinguishes helper-bit reconciliation from the encryption-style approach modern standards use?",
+      "answer": "Helper-bit: one party publishes explicit rounding hints — cheap in bandwidth per coefficient but the hints leak a bounded amount of noise structure that the security analysis must account for. Encryption-style (Kyber/ML-KEM): the shared key is directly encoded as a message and the encoding's recovery property absorbs the mismatch — the hint disappears into the code. Standards favor the second; helper bits survive where every transcript byte matters."
+    }
+  ]
 }

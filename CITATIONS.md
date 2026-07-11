@@ -117,6 +117,51 @@ post-quantum transition setting, with explicit treatment of the harvest-now-decr
 threat model that motivates near-term hybrid deployment.
 <https://eprint.iacr.org/2018/903>
 
+### shor-1997
+Peter W. Shor. *"Polynomial-Time Algorithms for Prime Factorization and Discrete
+Logarithms on a Quantum Computer."* SIAM Journal on Computing, 26(5), 1997; conference
+version FOCS 1994. The algorithm that breaks RSA, finite-field Diffie-Hellman, and
+elliptic-curve cryptography on a sufficiently large fault-tolerant quantum computer —
+the founding motivation for post-quantum cryptography.
+<https://arxiv.org/abs/quant-ph/9508027>
+
+### mosca-2018
+Michele Mosca. *"Cybersecurity in an Era with Quantum Computers: Will We Be Ready?"*
+IEEE Security & Privacy, 16(5), 2018; ePrint 2015/1075. Source of the migration
+inequality (if migration time plus required secrecy lifetime exceeds the time until a
+cryptographically relevant quantum computer, you are already late) that frames the
+harvest-now-decrypt-later urgency argument.
+<https://eprint.iacr.org/2015/1075>
+
+### fips-203-2024
+National Institute of Standards and Technology. *"FIPS 203: Module-Lattice-Based
+Key-Encapsulation Mechanism Standard."* August 2024. The final standard specifying
+ML-KEM (derived from CRYSTALS-Kyber) at three parameter sets (ML-KEM-512 / -768 / -1024);
+the reference document for every ML-KEM claim in the atlas.
+<https://csrc.nist.gov/pubs/fips/203/final>
+
+### lpr-2010
+Vadim Lyubashevsky, Chris Peikert, Oded Regev. *"On Ideal Lattices and Learning with
+Errors over Rings."* EUROCRYPT 2010; ePrint 2012/230. Defines Ring-LWE and gives the
+worst-case reduction from ideal-lattice problems — the theoretical basis for the
+structured-lattice efficiency gains used by ML-KEM and its relatives.
+<https://eprint.iacr.org/2012/230>
+
+### langlois-stehle-2015
+Adeline Langlois, Damien Stehlé. *"Worst-Case to Average-Case Reductions for Module
+Lattices."* Designs, Codes and Cryptography, 75(3), 2015; ePrint 2012/090. Defines
+Module-LWE and its reduction from module-lattice problems — the assumption ML-KEM
+actually rests on, interpolating between unstructured LWE and Ring-LWE.
+<https://eprint.iacr.org/2012/090>
+
+### pessl-2017
+Peter Pessl, Leon Groot Bruinderink, Yuval Yarom. *"To BLISS-B or not to be: Attacking
+strongSwan's Implementation of Post-Quantum Signatures."* ACM CCS 2017; ePrint 2017/490.
+The canonical demonstration that secret-dependent (rejection/Gaussian) sampling in
+lattice schemes leaks through side channels — the concrete precedent behind the atlas
+side-channels concept's sampling warnings and the preference for CBD sampling.
+<https://eprint.iacr.org/2017/490>
+
 ---
 
 ## How to add a new citation

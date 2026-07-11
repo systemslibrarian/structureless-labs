@@ -3,6 +3,7 @@
   "title": "slff format internals",
   "subtitle": "A draft hybrid-KEM container — what the layout commits to, and what is honestly still open",
   "category": "engineering",
+  "path": 16,
   "views": {
     "simple": "slff (the Structureless Labs File Format) is the lab's draft container for encrypted data that uses a hybrid construction: a classical and a post-quantum key encapsulation, glued together at the file level so a single file can survive a future where one of those primitives falls. The layout is sketched. A magic number plus version header at the front, so old readers do not silently misread future files. A suite descriptor naming the two algorithms in use. A crypto-agility block recording *which* version of *which* parameter set was active at encryption time. An optional provenance block — a snapshot of the security estimate the lab held when the file was sealed. The authenticated header covers everything above. The encapsulated keys come next, then the encrypted payload, then the authentication tag. The layout makes real commitments — and one commitment is currently unresolved. The spec says *unknown critical fields are rejected; unknown non-critical fields are recorded and ignored* — but it does not yet say **how a field declares itself critical**. That open question is filed as [`F-0002`](../../sl-attacklab/findings/F-0002.md) and must be resolved before slff has a complete format spec. This page is honest about that state: a draft worth understanding, with one named gap.",
     "developer": "slff's layout, per [`slff/spec/FORMAT-OVERVIEW.md`](../../slff/spec/FORMAT-OVERVIEW.md):\n\n```\n+-----------------------------------------------------------+\n| Magic + format version                                    |\n| Suite descriptor: { classical_alg_id, pq_alg_id, params } |\n| Crypto-agility block: versioned parameter set + grades    |\n| Provenance (optional): security estimate @ encryption time|\n| Authenticated header (AAD) -- covers everything above     |\n| Encapsulated keys (hybrid: classical || PQ)               |\n| AEAD-encrypted payload                                    |\n| Auth tag                                                  |\n+-----------------------------------------------------------+\n```\n\nDesign commitments worth flagging. **(1) Downgrade resistance.** The suite descriptor sits *inside* the authenticated header, so a man-in-the-middle cannot rewrite `pq_alg_id` to a weaker scheme without invalidating the AAD — the standard lesson from TLS downgrade attacks (FREAK, Logjam) applied at the file-format level. **(2) Hybrid is native.** Unlike file formats that bolted PQ on after the fact, slff treats `(classical_alg_id, pq_alg_id)` as the suite primary key. There is no PQ-only or classical-only suite encoding; both slots are mandatory. **(3) Migration via re-encryption.** A v1 file is migrated by decrypting and re-encrypting under a v2 suite; the new container references the old suite version so the audit trail stays coherent. No in-place suite upgrade. **(4) The crypto-agility block exists separately** from the suite descriptor — it carries the parameter-set version and an evidence grade (per `sl-researchkit/checklists/EVIDENCE-GRADING.md`), so a future reader sees both *what algorithm was used* and *what the lab knew about its strength* at encryption time. **The honest gap.** [`F-0002`](../../sl-attacklab/findings/F-0002.md) — Attacker persona, 2026-06-09 — raised that the spec's *unknown critical → reject; unknown non-critical → ignore* rule is unimplementable as written. There is no specified mechanism by which a field declares itself critical: no per-field flag, no `crit` list à la JOSE, no CBOR tag convention. Without that mechanism, two conforming implementations can disagree on which unknown fields to reject — the classic accept-vs-reject divergence. F-0002's recommended resolution is the JOSE `crit`-list pattern (RFC 7515 §4.1.11) inside the suite descriptor, plus paired positive/negative test vectors in `sl-vectors`. This concept will be updated when F-0002 closes.",
@@ -10,8 +11,28 @@
   },
   "evidence_grade": "C",
   "evidence_note": "Grade C reflects honest spec-state: the format layout and design commitments are written, but a load-bearing open finding (F-0002) means slff is not yet a complete spec. The hybrid-combiner reference (Giacon-Heuer-Poettering 2018) is solid; the downgrade-resistance property is the standard AAD-cover argument. The grade is intentionally lower than the surrounding foundations concepts to reflect that this concept describes a *draft*, not a settled artifact.",
-  "related": ["hybrid-constructions", "lwe", "parameter-choices"],
-  "citations": ["giacon-2018", "kyber-2018", "frodokem-2017"],
-  "attack_links": ["sl-attacklab/findings/F-0002.md"],
-  "source_spec": "../../slff/spec/FORMAT-OVERVIEW.md"
+  "related": [
+    "hybrid-constructions",
+    "lwe",
+    "parameter-choices"
+  ],
+  "citations": [
+    "giacon-2018",
+    "kyber-2018",
+    "frodokem-2017"
+  ],
+  "attack_links": [
+    "sl-attacklab/findings/F-0002.md"
+  ],
+  "source_spec": "../../slff/spec/FORMAT-OVERVIEW.md",
+  "checks": [
+    {
+      "question": "What stops an attacker from rewriting a file's suite descriptor to downgrade it to a weaker algorithm?",
+      "answer": "The suite descriptor sits *inside* the authenticated header (AAD), so any modification invalidates the authentication tag. It is the lesson TLS learned from the FREAK and Logjam downgrade attacks, applied at rest: negotiate-able fields must be covered by the integrity check."
+    },
+    {
+      "question": "The design looks solid — why is this concept graded C?",
+      "answer": "Because of the open finding F-0002: the spec says \"unknown critical fields → reject\" without defining *how* a field declares itself critical, so two conforming implementations could disagree about what to reject. Until the mechanism is specified and negative test vectors exist, slff is a draft — and the grade's job is to say so rather than let the layout diagram imply more than the spec delivers."
+    }
+  ]
 }

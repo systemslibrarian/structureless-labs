@@ -96,6 +96,24 @@ function validate(doc, file) {
     }
   }
 
+  // path (learning-path position)
+  if ("path" in doc) {
+    if (!Number.isInteger(doc.path) || doc.path < 1) fail(file, `path must be an integer ≥ 1`);
+  }
+
+  // checks (self-check questions)
+  if ("checks" in doc) {
+    if (!Array.isArray(doc.checks)) fail(file, `checks must be an array`);
+    else doc.checks.forEach((chk, i) => {
+      if (typeOf(chk) !== "object") return fail(file, `checks[${i}] must be an object`);
+      for (const k of Object.keys(chk)) {
+        if (k !== "question" && k !== "answer") fail(file, `checks[${i}] has unexpected key "${k}"`);
+      }
+      if (typeof chk.question !== "string" || chk.question.length === 0) fail(file, `checks[${i}].question must be a non-empty string`);
+      if (typeof chk.answer !== "string" || chk.answer.length === 0) fail(file, `checks[${i}].answer must be a non-empty string`);
+    });
+  }
+
   // citations
   if ("citations" in doc) {
     if (!Array.isArray(doc.citations)) fail(file, `citations must be an array`);
@@ -113,6 +131,7 @@ if (jsonFiles.length === 0) {
   process.exit(2);
 }
 
+const pathPositions = new Map(); // path number → file, for cross-file uniqueness
 for (const f of jsonFiles) {
   const full = path.join(CONTENT_DIR, f);
   let doc;
@@ -123,6 +142,13 @@ for (const f of jsonFiles) {
     continue;
   }
   validate(doc, full);
+  if (Number.isInteger(doc.path)) {
+    if (pathPositions.has(doc.path)) {
+      fail(full, `path position ${doc.path} already used by ${pathPositions.get(doc.path)}`);
+    } else {
+      pathPositions.set(doc.path, f);
+    }
+  }
 }
 
 if (process.exitCode) {

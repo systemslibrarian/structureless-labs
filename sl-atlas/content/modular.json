@@ -3,6 +3,7 @@
   "title": "Modular Arithmetic (mod q)",
   "subtitle": "The clock that every lattice scheme lives on",
   "category": "foundations",
+  "path": 2,
   "views": {
     "simple": "Pick a number, say 17. Now agree that whenever you count past 17, you wrap back around to 0. That's all `(mod 17)` means — arithmetic on a clock face with 17 hours instead of 12. Every lattice cryptosystem lives on such a clock; the size of the clock is called `q`. Why bother? Because wrapping makes large numbers stay small, and small numbers are what computers (and noise distributions) actually work with. The clock is the box that keeps everything finite.",
     "developer": "`a mod q` is the unique value in `{0, 1, …, q−1}` congruent to `a` modulo `q`. All LWE operations — matrix multiply, addition, comparison — happen in `Z_q`. Choice of `q` matters: it should be large enough that the noise `e` does not 'wrap around' and destroy the message structure, but small enough that operations remain efficient. Common choices: `q = 3329` (Kyber, a prime), `q = 8192` (Saber, a power of two — fast modular reduction but algebraic structure carries trade-offs). The arithmetic also defines the noise budget: rounding-style decoders typically tolerate `‖e‖_∞ < q/4`.",
@@ -10,7 +11,20 @@
   },
   "evidence_grade": "A",
   "evidence_note": "The mathematical content is elementary and uncontested. Engineering choices about specific values of `q` are well-justified in the standards literature.",
-  "related": ["lwe", "noise"],
+  "related": [
+    "lwe",
+    "noise"
+  ],
   "attack_links": [],
-  "source_spec": null
+  "source_spec": null,
+  "checks": [
+    {
+      "question": "Why does every lattice scheme work on a \"clock\" (mod q) instead of ordinary integers?",
+      "answer": "Wrapping keeps every value inside a fixed finite range {0, …, q−1}, so ciphertexts have a fixed size and — more importantly — \"small noise\" has a precise meaning: small *relative to q*. Without a finite ring there is no clean way to say the noise is small enough to decode through but large enough to hide the secret."
+    },
+    {
+      "question": "A rounding decoder tolerates noise up to about q/4. What happens to that budget if you halve q while keeping the noise distribution the same?",
+      "answer": "The absorption budget halves, so the same noise is now twice as large relative to the clock and decryption failures become more likely. That is the bandwidth-versus-correctness tension in one move: a smaller q means smaller keys and ciphertexts, but a tighter noise budget — see Decryption Failure Probability."
+    }
+  ]
 }

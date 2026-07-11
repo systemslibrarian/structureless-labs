@@ -3,15 +3,42 @@
   "title": "Parameter choices",
   "subtitle": "How (n, q, χ) get tuned — the joint optimization of security, bandwidth, and correctness",
   "category": "foundations",
+  "path": 9,
   "views": {
-    "simple": "Every cryptographic scheme is a balance. Choose parameters that make attacks too expensive — but not so heavy that legitimate users can't run them. In lattice cryptography, the main knobs are the dimension (how many numbers in the secret), the modulus (the clock size), and the noise size (how much imperfection you mix in). Turn them too low and the math is easy to break; too high and your keys won't fit in a network packet. The published standards — ML-KEM, FrodoKEM — represent particular guesses about where the right balance lives, and that balance is publicly auditable: every parameter set ships with a derivation showing why these specific numbers.",
+    "simple": "Every cryptographic scheme is a balance. Choose parameters that make attacks too expensive — but not so heavy that legitimate users can't run them. In lattice cryptography, the main knobs are the *dimension* (how many numbers in the secret), the *modulus* (the clock size), and the *noise size* (how much imperfection you mix in). Turn them too low and the math is easy to break; too high and your keys won't fit in a network packet. The published standards — ML-KEM, FrodoKEM — represent particular guesses about where the right balance lives, and that balance is publicly auditable: every parameter set ships with a derivation showing why these specific numbers.",
     "developer": "Parameter selection for an LWE-based KEM is the joint optimization of `(n, m, q, χ)` against three constraints: **(1) Security target `λ`** (typically 128 / 192 / 256 classical bits, or 64 / 96 / 128 quantum bits under core-SVP), enforced via the lattice-estimator's output. **(2) Decryption-failure target `δ`** (typically `≤ 2^{-λ_sec}` per the D'Anvers et al. (2019) adaptive-failure bound). **(3) Bandwidth/latency envelope** (public-key size, ciphertext size, ops/sec). The trade is non-monotone: raising `n` raises security *and* bandwidth; tightening `χ` lowers `δ` but can lower security; raising `q` gives noise budget but inflates keys. ML-KEM-512 (Kyber) lives at one point in this triangle; FrodoKEM-640 at another. Choosing between them is choosing a position — not finding a unique answer.",
-    "researcher": "The methodology underlying every modern lattice-KEM parameter set: pick a candidate `(n, m, q, χ)`; run the lattice estimator (Albrecht, Player, Scott 2015 and the actively-maintained successors at the lattice-estimator project) to produce a security cost in some cost model — core-SVP being the de facto standard, with `2^{0.292 β}` (classical) and `2^{0.265 β}` (quantum) as the canonical BKZ-block-size mapping. Verify the cost meets `λ`; convolve `χ` (Kyber's CBD_η, FrodoKEM's discrete-Gaussian-approximation table) to bound `δ` and verify the D'Anvers (2019) adaptive-failure constraint. Iterate. The estimator's output is itself a moving target — new lattice-reduction or sieving results (G6K, BDGL 2016) periodically tighten the bound, and a parameter set valid in 2024 may be downgraded in 2027. Hence the lab's sl-bench INTERPRETATION rule: numbers without the methodology and cost-model assumptions are not a result."
+    "researcher": "The methodology underlying every modern lattice-KEM parameter set: pick a candidate `(n, m, q, χ)`; run the *lattice estimator* (Albrecht, Player, Scott 2015 and the actively-maintained successors at the `lattice-estimator` project) to produce a security cost in some cost model — `core-SVP` being the de facto standard, with `2^{0.292 β}` (classical) and `2^{0.265 β}` (quantum) as the canonical BKZ-block-size mapping. Verify the cost meets `λ`; convolve `χ` (Kyber's CBD_η, FrodoKEM's discrete-Gaussian-approximation table) to bound `δ` and verify the D'Anvers (2019) adaptive-failure constraint. Iterate. The estimator's output is itself a moving target — new lattice-reduction or sieving results (G6K, BDGL 2016) periodically tighten the bound, and a parameter set valid in 2024 may be downgraded in 2027. Hence the lab's [`sl-bench/sl-kem/INTERPRETATION.md`](https://github.com/systemslibrarian/structureless-labs/blob/main/sl-bench/sl-kem/README.md) rule: numbers without the methodology and cost-model assumptions are not a result."
   },
+  "interactive": "attack-cost",
   "evidence_grade": "B",
   "evidence_note": "Well-established methodology; the lattice estimator and core-SVP cost model are the canonical reference points. The specific numerical bounds are graded B (not A) because they shift as cryptanalysis improves.",
-  "related": ["lwe", "noise", "encoding", "modular", "reconciliation"],
-  "citations": ["kyber-2018", "frodokem-2017", "dvv-2019", "albrecht-2015"],
+  "related": [
+    "lwe",
+    "noise",
+    "encoding",
+    "modular",
+    "reconciliation"
+  ],
+  "citations": [
+    "kyber-2018",
+    "frodokem-2017",
+    "dvv-2019",
+    "albrecht-2015"
+  ],
   "attack_links": [],
-  "source_spec": null
+  "source_spec": null,
+  "checks": [
+    {
+      "question": "In the cost explorer above, raise n with everything else fixed. Why does the security estimate climb?",
+      "answer": "The attacker's lattice problem lives in dimension proportional to n, and the BKZ block size β needed to solve it grows with the dimension — while the attack cost grows exponentially in β (core-SVP ≈ 2^0.292β classical). Dimension is the primary security dial. It is also the primary cost dial: unstructured-LWE keys grow roughly quadratically with n."
+    },
+    {
+      "question": "Why does *raising* q (with the noise σ fixed) lower the security estimate?",
+      "answer": "A larger clock makes the same noise proportionally smaller — the gap the attacker must distinguish widens relative to the noise, and lattice reduction needs a smaller β to exploit it. Raising q is bought for correctness (a wider noise budget, lower δ) and must be paid back with more dimension or wider noise. No knob moves alone."
+    },
+    {
+      "question": "Why don't the explorer's numbers match the official claimed security levels exactly?",
+      "answer": "The explorer implements one deliberately simplified estimate — the primal attack under the GSA shape with core-SVP costing. A real analysis runs several attacks (primal, dual, hybrid, BKW variants) under several cost models via the maintained lattice estimator and takes the minimum. Same shape, coarser lens — which is precisely why the lab's rule is \"numbers without methodology are not results.\""
+    }
+  ]
 }

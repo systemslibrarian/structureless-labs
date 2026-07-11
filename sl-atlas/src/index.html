@@ -64,10 +64,11 @@
         <strong>sl-atlas is an interactive textbook for post-quantum lattice cryptography</strong> — and a working demonstration of the lab's research method. Every concept renders at three depths so the same material reaches a curious non-expert, a working programmer, and a formal researcher without any of them reading the others' version.
       </p>
       <ul class="atlas-intro-list">
-        <li><strong>Pick a depth.</strong> Press <kbd>1</kbd> Simple, <kbd>2</kbd> Developer, <kbd>3</kbd> Researcher, or <kbd>c</kbd> for side-by-side Compare. Move between concepts with <kbd>j</kbd> / <kbd>k</kbd>.</li>
-        <li><strong>Try the live demo.</strong> On <a href="#/lwe">Learning With Errors</a>, click <em>Noise off</em> and watch a secure scheme collapse into linear algebra a calculator could solve. That single demonstration is the whole point of lattice cryptography in one toggle.</li>
-        <li><strong>The sidebar shows the method, not just the content.</strong> <em>Foundations</em> is what's published. <em>Held by Teacher gate</em> is what the lab's own editorial review refused to publish — click a <span class="pill-block">BLOCK</span>ed concept to read the draft and the reason. The gate has teeth; you can see them.</li>
-        <li><strong>Every claim has a provenance chain.</strong> Each concept carries an evidence grade and citation IDs that resolve to <a href="https://github.com/systemslibrarian/structureless-labs/blob/main/CITATIONS.md" target="_blank" rel="noopener">CITATIONS.md</a>. CI fails the build if any reference rots.</li>
+        <li><strong>Follow the path — or don't.</strong> The sidebar is a numbered learning path from <a href="#/threat-model">why any of this matters</a> to the lab's own draft format. Every concept stands alone too; wander with <kbd>j</kbd> / <kbd>k</kbd>, search with <kbd>/</kbd>, look things up in the <a href="#/glossary">glossary</a> (<kbd>g</kbd>).</li>
+        <li><strong>Pick a depth.</strong> Press <kbd>1</kbd> Simple, <kbd>2</kbd> Developer, <kbd>3</kbd> Researcher, or <kbd>c</kbd> for side-by-side Compare — the same concept, authored once, rendered three ways.</li>
+        <li><strong>Predict, then verify.</strong> Four concepts carry live demonstrations — the <a href="#/lwe">LWE equation</a>, a <a href="#/lattices">draggable lattice</a>, an <a href="#/encoding">encoder with an exact failure probability</a>, and an <a href="#/parameter-choices">attack-cost explorer</a>. Each asks for your prediction before it shows the answer, and each ends with a plain statement of what it does <em>not</em> demonstrate. Concepts close with <em>Check your understanding</em> questions.</li>
+        <li><strong>The sidebar shows the method, not just the content.</strong> <em>Held by Teacher gate</em> is where the lab's own editorial review parks drafts it refused to publish — the gate's one BLOCK on record (and its resolution) is preserved in the decision log. The gate has teeth; you can see them.</li>
+        <li><strong>Every claim has a provenance chain.</strong> Each concept carries an evidence grade and citation IDs that resolve to <a href="https://github.com/systemslibrarian/structureless-labs/blob/main/CITATIONS.md" target="_blank" rel="noopener">CITATIONS.md</a>. CI fails the build if any reference rots — and fails it if the published site drifts from the authored content.</li>
       </ul>
       <p class="atlas-intro-cta">
         New here? The <a href="https://github.com/systemslibrarian/structureless-labs#your-first-hour-exactly" target="_blank" rel="noopener">first-hour visitor path</a> walks the whole lab in six steps. Or just start exploring — pick a concept from the sidebar.
@@ -77,25 +78,48 @@
 
   <main class="layout">
     <aside class="sidebar" aria-label="Concepts">
-      <div class="sidebar-section">
-        <h2 class="sidebar-heading">Foundations</h2>
-        <ul id="concept-list" class="concept-list" role="list"></ul>
+      <div class="sidebar-search" role="search">
+        <label class="visually-hidden" for="atlas-search">Search concepts and glossary</label>
+        <input id="atlas-search" type="search" placeholder="Search&hellip;  ( / )" autocomplete="off" spellcheck="false" />
       </div>
+      <ul id="search-results" class="concept-list search-results" role="list" hidden></ul>
 
-      <div class="sidebar-section sidebar-blocked">
-        <h2 class="sidebar-heading">Held by Teacher gate</h2>
-        <p class="sidebar-hint">Drafts our editorial reviewer (the &ldquo;Teacher&rdquo; persona) refused to publish. Click one to read the draft and the reason for the <span class="pill-block">BLOCK</span>.</p>
-        <ul id="blocked-list" class="concept-list" role="list"></ul>
-      </div>
+      <div id="sidebar-sections">
+        <div class="sidebar-section">
+          <h2 class="sidebar-heading">Learning path</h2>
+          <p class="sidebar-hint">A suggested reading order, from &ldquo;why any of this matters&rdquo; to the lab&rsquo;s own draft format. Numbered, not locked &mdash; wander freely.</p>
+          <ul id="concept-list" class="concept-list" role="list"></ul>
+        </div>
 
-      <div class="sidebar-shortcuts" aria-label="Keyboard shortcuts">
-        <h3>Shortcuts</h3>
-        <dl>
-          <dt><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd></dt><dd>views</dd>
-          <dt><kbd>c</kbd></dt><dd>compare</dd>
-          <dt><kbd>j</kbd> <kbd>k</kbd></dt><dd>next / prev concept</dd>
-          <dt><kbd>t</kbd></dt><dd>theme</dd>
-        </dl>
+        <div class="sidebar-section">
+          <h2 class="sidebar-heading">Reference</h2>
+          <ul class="concept-list" role="list">
+            <li>
+              <a id="glossary-link" class="concept-link" href="#/glossary">
+                <span class="path-num" aria-hidden="true">§</span>
+                <span class="concept-link-title">Glossary</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="sidebar-section sidebar-blocked">
+          <h2 class="sidebar-heading">Held by Teacher gate</h2>
+          <p class="sidebar-hint">Drafts our editorial reviewer (the &ldquo;Teacher&rdquo; persona) refused to publish. When a draft is blocked it appears here, with the reason, until resolved.</p>
+          <ul id="blocked-list" class="concept-list" role="list"></ul>
+        </div>
+
+        <div class="sidebar-shortcuts" aria-label="Keyboard shortcuts">
+          <h3>Shortcuts</h3>
+          <dl>
+            <dt><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd></dt><dd>views</dd>
+            <dt><kbd>c</kbd></dt><dd>compare</dd>
+            <dt><kbd>j</kbd> <kbd>k</kbd></dt><dd>next / prev concept</dd>
+            <dt><kbd>/</kbd></dt><dd>search</dd>
+            <dt><kbd>g</kbd></dt><dd>glossary</dd>
+            <dt><kbd>t</kbd></dt><dd>theme</dd>
+          </dl>
+        </div>
       </div>
     </aside>
 
@@ -122,6 +146,7 @@
   <script src="concepts.js"></script>
   <script src="blocked.js"></script>
   <script src="citations.js"></script>
+  <script src="glossary.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
