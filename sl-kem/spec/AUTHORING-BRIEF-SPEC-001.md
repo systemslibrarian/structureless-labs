@@ -11,7 +11,7 @@ A step-by-step, constitution-compliant guide for whoever (human or AI agent) wri
 ## What this document is NOT
 
 - **Not a parameter set.** No values for `n, m, q, χ, λ, δ` are committed here.
-- **Not a substitute for D-0004.** The reference-selection decision (which published parameter set is being adopted) is reserved for [`sl-kem/decisions/D-0004.md`](../decisions/D-0004.md), which does not yet exist. Authoring SPEC-001 without D-0004 first is out of order.
+- **Not a substitute for D-0004.** The reference-selection decision (which published parameter set is being adopted) is reserved for `sl-kem/decisions/D-0004.md`, which does not yet exist — deliberately an unlinked path, so the repo's link checker keeps passing until the decision lands and the link can be made real. Authoring SPEC-001 without D-0004 first is out of order.
 - **Not a six-persona review.** This brief lists the questions each persona will face on SPEC-001; it does not pre-decide their verdicts. Pretending to vote for personas without their actual review would violate Article 1 (Conservatism) and Article 6 (Provenance) of [CONSTITUTION](../../CONSTITUTION.md).
 - **Not endorsed by anyone.** Specifically not by the eventual adoption source — whichever publication's parameter set ends up bound here, that publication has not reviewed `sl-kem`.
 
